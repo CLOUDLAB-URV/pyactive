@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr">
+
+
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <base  />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="author" content="Edgar Zamora-Gómez" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="generator" content="Joomla! - Open Source Content Management" />
+  <title>Evaluation</title>
+  <link href="http://127.0.0.1/pyactive/templates/protostar/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  <link rel="stylesheet" href="http://127.0.0.1/pyactive/templates/protostar/css/template.css" type="text/css" />
+  <style type="text/css">
+#scrollToTop {
+	cursor: pointer;
+	font-size: 0.9em;
+	position: fixed;
+	text-align: center;
+	z-index: 9999;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-moz-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	-o-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+
+	background: #121212;
+	color: #ffffff;
+	border-radius: 8px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	right: 20px; bottom: 20px;
+}
+
+#scrollToTop:hover {
+	background: #0088cc;
+	color: #ffffff;
+}
+
+#scrollToTop > img {
+	display: block;
+	margin: 0 auto;
+}
+  </style>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-more.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/plg_system_sl_scrolltotop/js/scrolltotop_mt.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-migrate.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/caption.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+document.addEvent('domready', function() {
+	new Skyline_ScrollToTop({
+		'image':		'/pyactive/images/images-3.jpeg',
+		'text':			'',
+		'title':		'',
+		'className':	'scrollToTop',
+		'duration':		500,
+		'transition':	Fx.Transitions.linear
+	});
+});
+jQuery(window).on('load',  function() {
+				new JCaption('img.caption');
+			});
+  </script>
+
+<!--[if lt IE 9]>
+	<script src="/pyactive/media/jui/js/html5.js"></script>
+<![endif]-->
+</head>
+<body class="contentpane modal">
+	<div id="system-message-container">
+	</div>
+
+	<div class="item-page" itemscope itemtype="https://schema.org/Article">
+	<meta itemprop="inLanguage" content="en-GB" />
+	
+		
+			<div id="pop-print" class="btn hidden-print">
+			<a href="#" onclick="window.print();return false;"><span class="icon-print"></span>Print</a>		</div>
+		<div class="clearfix"> </div>
+			<div class="page-header">
+					<h2 itemprop="name">
+				Evaluation			</h2>
+									</div>
+					
+	
+	
+				
+								<div itemprop="articleBody">
+		<h1>Evaluating the Expressiveness and Simplicity of Our Approach</h1>
+<p style="text-align: justify;"> In this experiment we are comparing the complexity of the Chord algorithm implementation in four platforms: Macedon, PlanetSim, PeerSim, and PyActive. PlanetSim and PeerSim are P2P event simulators implemented in the Java language. They are very popular and widely used in the P2P community and they provide a simple framework for developing decentralized scalable algorithms. Continuation Complexity: A Callback Hell for Distributed Systems 295 Macedon is a Domain Specific Language (DSL) that generates code for the Ns-2 simulator and C++ code with sockets for experimentation. The DSL is based on event-driven finite state machines and it claims a reduction in lines of code and simplicity of the implemented distributed algorithms.</p>
+<p style="text-align: justify;">Even if we are comparing different programming languages (Java in PeerSim and Planetsim, DSL in Macedon, Python in our Actor library) the comparison is useful to understand different approaches of implementing the same Chord algorithm. PlanetSim and PeerSim are good examples of the Callback Hell since they require complex callback handlers and message programming. They had to break the elegant Chord RPCs into different code fragments clearly showing our Continuation Complexity Problem.</p>
+<p style="text-align: justify;">Macedon is a different approach that uses a DSL and state machines to simplify message handling. But again, it resulted in a complex code that is far from the simplicity of Chord sequential code using RPCs.</p>
+<p style="text-align: justify;">Before comparing the code, it is important to outline that the different versions are not implementing the Chord algorithm exactly as stated in the original article. For example, Macedon only implements a successor list of size 2, and their fix finger protocol is using the simpler update others variant that is not recommended for real settings.</p>
+<p style="text-align: justify;">Regarding PeerSim, it is important to outline that their implementation is not completely event-based because they also use object invocation short-cuts to simplify the code. In this line, Nodes access the getProtocol() method that provides a clone of the desired node. Finally, PlanetSim provides a fully event-oriented implementation of Chord, but the implementation of the successor list does not consider all possible cases and errors in the protocol.</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="http://127.0.0.1/pyactive/images/validation_pyactive.png" alt="" width="698" height="258" /></p>
+<p> </p>
+<p style="text-align: justify;">As we can see in the Fig. 4 our approach (PyActive, JPyActive) is providing the simplest solution. Note that we also implemented a Java version (JPyactive) to be fair in the comparison with other Java-based solutions like PlanetSim or Peersim. </p>
+<p style="text-align: justify;"> Our implementation has less LoC. Furthermore, our implementation is simpler and easier to understand that any of the presented alternatives. Our object oriented model is straightforward and it does not need additional understanding of messages, handlers and states. Macedon, PeerSim, and PlanetSim will require an understanding of messages and transitions that is more intricate that the simplicity of sequence diagrams in an object oriented design.</p>
+<p style="text-align: justify;">It is worth comparing the different approaches in code complexity (i.e., Cyclomatic Complexity). Again, our implementation is beating the other proposals in the overall complexity and in the most complex method. One important reason is that our model avoids large message handling conditionals because messages are cleanly mapped to methods. Furthermore, synchronous calls that return results are naturally mapped to method invocations, whereas event-based approaches must split these invocations in requests and responses.</p>
+<p style="text-align: justify;">As we can see, even accepting that the Python language produces less lines of code compared to Java (e.g., PeerSim or PlanetSim), we have demonstrated that our additional reduction in terms of complexity and LoC is very meaningful. There are two main reasons: continuation complexity and message handling complexity. The continuation complexity is reduced in our model thanks to syn- chronous calls masked by proxies. The message handling complexity is reduced by the transparent mapping of messages to method calls in the Active Object pattern.</p>
+<p style="text-align: justify;">In particular, four methods in the Chord original algorithm present Continuation Complexity: find predecessor, fix finger, stabilize, and join. All of them should be changed in an asynchronous programming model, and thus requiring different code fragments (request, response, and timeout) for RPCs. In our case, we implemented Chord as a slight modification of Chord’s original OOP code. Just by annotating the remote abstractions in the class, we can run Chord in an Actor library that also permits remote Actors in a transparent way.</p>
+<p style="text-align: justify;">On the contrary, the rest of the implementations (Macedon, PlanetSim, Peer- Sim) suffer from the continuation complexity problem in different degrees. Each takes a different strategy but all of them need to break every RPC in two code fragments (request and response). Regarding Timeouts, some declare a time- out function for every method, or they can reuse the timeout handler for all methods. So for example, Macedon is breaking find predecessor in three code fragments (request, reply, timeout), but they are duplicated for different states of the protocol (joined, joining). Macedon does not add another function for the iteration but the additional code is found inside the response handler. PlanetSim and PeerSim also include handlers for requests, responses and timeouts inside their code implementing implicit continuations.</p> 	</div>
+
+	
+							</div>
+
+</body>
+
+
+</html>

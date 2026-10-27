@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr">
+
+
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <base  />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="author" content="Edgar Zamora-Gómez" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="generator" content="Joomla! - Open Source Content Management" />
+  <title>Parallel Abstraction</title>
+  <link href="http://127.0.0.1/pyactive/templates/protostar/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  <link rel="stylesheet" href="http://127.0.0.1/pyactive/templates/protostar/css/template.css" type="text/css" />
+  <style type="text/css">
+#scrollToTop {
+	cursor: pointer;
+	font-size: 0.9em;
+	position: fixed;
+	text-align: center;
+	z-index: 9999;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-moz-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	-o-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+
+	background: #121212;
+	color: #ffffff;
+	border-radius: 8px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	right: 20px; bottom: 20px;
+}
+
+#scrollToTop:hover {
+	background: #0088cc;
+	color: #ffffff;
+}
+
+#scrollToTop > img {
+	display: block;
+	margin: 0 auto;
+}
+  </style>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-more.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/plg_system_sl_scrolltotop/js/scrolltotop_mt.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-migrate.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/caption.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+document.addEvent('domready', function() {
+	new Skyline_ScrollToTop({
+		'image':		'/pyactive/images/images-3.jpeg',
+		'text':			'',
+		'title':		'',
+		'className':	'scrollToTop',
+		'duration':		500,
+		'transition':	Fx.Transitions.linear
+	});
+});
+jQuery(window).on('load',  function() {
+				new JCaption('img.caption');
+			});
+  </script>
+
+<!--[if lt IE 9]>
+	<script src="/pyactive/media/jui/js/html5.js"></script>
+<![endif]-->
+</head>
+<body class="contentpane modal">
+	<div id="system-message-container">
+	</div>
+
+	<div class="item-page" itemscope itemtype="https://schema.org/Article">
+	<meta itemprop="inLanguage" content="en-GB" />
+	
+		
+			<div id="pop-print" class="btn hidden-print">
+			<a href="#" onclick="window.print();return false;"><span class="icon-print"></span>Print</a>		</div>
+		<div class="clearfix"> </div>
+			<div class="page-header">
+					<h2 itemprop="name">
+				Parallel Abstraction			</h2>
+									</div>
+					
+	
+	
+				
+								<div itemprop="articleBody">
+		<h2 style="text-align: justify;">Context</h2>
+<p style="text-align: justify;">The Continuation Complexity problem leads us to a paradox in Actor models: synchronous blocking calls are needed to correctly implement RPCs in order to avoid breaking the code into asynchronous messages and handlers. But Actor models are purely asynchronous, and using synchronous calls would block the calling Actor unique thread of control until the response arrives. </p>
+<p style="text-align: justify;">The aforementioned paradox also represents a burden for Object Oriented Actor libraries. If only asynchronous calls are allowed, the resulting code breaks with the traditional object oriented paradigm and complicates the resulting code.</p>
+<p style="text-align: justify;">To solve this problem, we present a novel method invocation abstraction called parallel, enabling synchronous invocations to other Actors, without stalling the current Actor’s thread of control. Our parallel calls enable concurrent interleavings of method executions within a single Actor.</p>
+<h3>Concurrency Control</h3>
+<p style="text-align: justify;">The major challenge is to enable concurrent interleaving of method executions within a single Actor. We mainly want to allow the main Actor thread to continue processing incoming method requests while the parallel thread is blocked waiting for a response in a remote Actor due to a synchronous invocation.</p>
+<p style="text-align: justify;">We present two solutions: one based on threads and locks and another based on green threads and continuations, </p>
+<p style="text-align: justify;"><strong>Solution 1 Threads:</strong> The Actor implementation will spawn normal threads in the Scheduler and Parallel Methods threads. To achieve consistency between Scheduler and Parallel threads, we use traditional Thread Lock mechanisms that prevent multiple threads to access the same object at the same time. Similar to the Monitor Object pattern, we use a Lock in the Actor object that is only activated when parallel threads are spawned. We aim to provide here a simple solution to demonstrate that parallel threads can coexist with the Actor main thread without conflicting with the servant object shared state. Our lock mechanism is completely transparent to the developer, so that the simplicity of the message passing concurrency model is not affected. </p>
+<p> <img style="display: block; margin-left: auto; margin-right: auto;" src="http://127.0.0.1/pyactive/images/Concurrency_diagram_v8.png" alt="" width="711" height="503" /></p>
+<p> </p>
+<p style="text-align: justify;">In the figure above we can see how our solution handles the concurrency problem. In this flow diagram we can observe where it uses the Lock acquire and Lock release primitives in a call flow. In addition, it is necessary to know that a single Lock is shared between Actor and Parallel Threads wrappers for each Actor. The life cycle is the following: </p>
+<ol>
+<li style="text-align: justify;"><strong>Acquire:</strong> When a call is incoming, if it exists some parallel call in the object, we need to acquire the lock to be sure that only one thread at this time is using the object. In Fig. 2, we show an example with a parallel synchronous call. At this moment, a parallel thread takes the control of the object, and any other thread can not access to the object.</li>
+<li style="text-align: justify;"><strong>Release:</strong> The parallel thread sends the synchronous invocation to a remote actor. In this moment, the parallel actor releases the lock so that the main thread or other parallel threads can continue working. This is the key point where the Actor is not blocked until the response arrives, and it can process incoming messages.</li>
+<li style="text-align: justify;"><strong>Acquire:</strong> While the parallel thread is waiting the response, our main thread and other parallel threads can serve other petitions. When the response arrives to the Proxy, the Parallel thread will be able to continue execut- ing the method. Nonetheless, it must try to acquire the Lock, because it is possible that the Lock is now in possession of another Thread.</li>
+<li style="text-align: justify;"><strong>Release:</strong> Finally, when the multicalls return object method ends, the parallel synchronous wrapper will release the Lock, and it will end its process.</li>
+</ol>
+<p style="text-align: justify;">As we can see, our solution ensures that only one thread access the shared state, but also that waiting for a response in a parallel thread will not preclude the main thread to process incoming messages. Obviously, we control whether the response will not return using a timeout. Using this system we guarantee that the main thread will not be blocked even if the response does not arrive.</p>
+<p style="text-align: justify;">Our solution permits to increase the Actor service time because it avoids blocking the Actor during synchronous invocations. We guarantee the correct interleavings of Actor parallel and main threads. Furthermore, we maintain the simplicity of message passing concurrency since the developer is still unaware of this concurrency control mechanisms. He must only tag the appropriate methods as parallel when necessary.</p>
+<p style="text-align: justify;"> </p>
+<p style="text-align: justify;">Solution 2: Micro Threads and Continuations: In this case, we can use the same figure used in the solution 1, but removing the acquire and release invocations. In that case, we don’t need to use a lock system. This is because in a single-threaded environment, two microthreads cannot modify the same state at the same time because their execution is sequential.</p>
+<p style="text-align: justify;">We assume here that the send and receive primitives in microthreads will execute a context-switch to other green thread processing the communication to other Actor. Following, we will try to explain better this process, step by step:</p>
+<ol style="text-align: justify;">
+<li><strong>send:</strong> When a proxy sends a synchronous message to another Actor, it auto- matically releases its control to other microthread.</li>
+<li><strong>receive:</strong> Parallel microthread will be inactive until it will receive a message. At moment that it will receive a message it will wake up and wait for its turn to continue the method execution. The implicit continuation implies that the code continues from that point.</li>
+</ol>
+<p style="text-align: justify;">Since send and receive policies are executed inside the Proxy, the developer is completely unaware of context-switches and continuations. Furthermore, in this case there is no need to use locks to prevent concurrent access.</p>
+<h3><span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.3em;">Example using parallel</span></h3>
+<p><span style="font-size: 12.16px; line-height: 15.808px;"><strong>Note:</strong> If you remove the start method from parallel list, you will be able to look another result, because the node 1 will be blocked.</span></p>
+<pre><code>from pyactive.controller import init_host, launch, start_controller, sleep
+
+class Node(object):
+    _sync = {'send_msg':'50', 'return_msg':'50'}
+    _async = ['print_some', 'start', 'start_n3', "registry_node"]
+    _parallel = []
+    _ref = ["registry_node"]
+
+    def registry_node(self, n2):
+        self.remote = n2
+
+    def send_msg(self):
+        print self.remote
+        msg = self.remote.return_msg()
+        print msg
+        return True
+
+    def return_msg(self):
+        print 'im here'
+        sleep(10)
+        print 'after sleep'
+        return 'Hello World'
+
+    def print_some(self):
+        print 'hello print some'
+
+    def start(self):
+        print 'call ...'
+        msg = self.remote.return_msg()
+        print msg
+
+    def start_n3(self):
+        for i in range(6):
+            self.remote.print_some()
+
+def test1():
+    host = init_host()
+    n2 = host.spawn_id('2','parallel1','Node',[])
+    n1 = host.spawn_id('1','parallel1','Node',[])
+    n3 = host.spawn_id('3','parallel1','Node',[])
+    n2.registry_node(n1)
+    n1.registry_node(n2)
+    n3.registry_node(n1)
+    n1.start()
+    sleep(1)
+    n3.start_n3()
+    sleep(10)
+
+
+def main():
+    start_controller('pyactive_thread')
+    launch(test1)
+
+if __name__ == "__main__":
+    main()</code></pre>
+<p> </p> 	</div>
+
+	
+							</div>
+
+</body>
+
+
+</html>

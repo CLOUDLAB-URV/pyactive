@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>User Guide</title>
+		<description><![CDATA[]]></description>
+		<link>http://127.0.0.1/pyactive/docs/userguide/9-user-guide</link>
+		<lastBuildDate>Tue, 27 Oct 2026 07:53:53 +0000</lastBuildDate>
+		<generator>Joomla! - Open Source Content Management</generator>
+		<atom:link rel="self" type="application/rss+xml" href="http://127.0.0.1/pyactive/docs/userguide/9-user-guide?format=feed&amp;type=rss"/>
+		<language>en-gb</language>
+		<item>
+			<title>Index</title>
+			<link>http://127.0.0.1/pyactive/docs/userguide</link>
+			<guid isPermaLink="true">http://127.0.0.1/pyactive/docs/userguide</guid>
+			<description><![CDATA[<p style="padding-left: 30px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/7-introduction">1 - Introduction</a></p>
+<p style="padding-left: 30px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/9-hello-world-examples">2 - Hello World </a></p>
+<p style="padding-left: 30px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/18-parallel">3 - Parallel Abstraction</a></p>
+<p style="padding-left: 30px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/22-evaluation">4 - Evaluation</a></p>
+<p style="padding-left: 30px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/15-log-system">5- Log System</a></p>
+<p style="padding-left: 30px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/10-multi">6- Multi</a></p>
+<p style="padding-left: 30px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/11-supervisor">7- Supervisor</a></p>
+<p style="padding-left: 30px;">8- Examples:</p>
+<p style="padding-left: 60px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/16-chord">9- Chord</a></p>
+<p style="padding-left: 60px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/12-paxos">10- Paxos</a></p>
+<p style="padding-left: 60px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/13-multi-paxos">11- Multi Paxos</a></p>
+<p style="padding-left: 60px;"><a href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/14-raft">12- Raft</a></p>]]></description>
+			<category>User Guide</category>
+			<pubDate>Wed, 13 Nov 2013 15:52:07 +0000</pubDate>
+		</item>
+	</channel>
+</rss>

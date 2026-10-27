@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr">
+
+
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <base  />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="author" content="Edgar Zamora-Gómez" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="generator" content="Joomla! - Open Source Content Management" />
+  <title>Hello World Examples</title>
+  <link href="http://127.0.0.1/pyactive/templates/protostar/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  <link rel="stylesheet" href="http://127.0.0.1/pyactive/templates/protostar/css/template.css" type="text/css" />
+  <style type="text/css">
+#scrollToTop {
+	cursor: pointer;
+	font-size: 0.9em;
+	position: fixed;
+	text-align: center;
+	z-index: 9999;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-moz-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	-o-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+
+	background: #121212;
+	color: #ffffff;
+	border-radius: 8px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	right: 20px; bottom: 20px;
+}
+
+#scrollToTop:hover {
+	background: #0088cc;
+	color: #ffffff;
+}
+
+#scrollToTop > img {
+	display: block;
+	margin: 0 auto;
+}
+  </style>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-more.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/plg_system_sl_scrolltotop/js/scrolltotop_mt.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-migrate.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/caption.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+document.addEvent('domready', function() {
+	new Skyline_ScrollToTop({
+		'image':		'/pyactive/images/images-3.jpeg',
+		'text':			'',
+		'title':		'',
+		'className':	'scrollToTop',
+		'duration':		500,
+		'transition':	Fx.Transitions.linear
+	});
+});
+jQuery(window).on('load',  function() {
+				new JCaption('img.caption');
+			});
+  </script>
+
+<!--[if lt IE 9]>
+	<script src="/pyactive/media/jui/js/html5.js"></script>
+<![endif]-->
+</head>
+<body class="contentpane modal">
+	<div id="system-message-container">
+	</div>
+
+	<div class="item-page" itemscope itemtype="https://schema.org/Article">
+	<meta itemprop="inLanguage" content="en-GB" />
+	
+		
+			<div id="pop-print" class="btn hidden-print">
+			<a href="#" onclick="window.print();return false;"><span class="icon-print"></span>Print</a>		</div>
+		<div class="clearfix"> </div>
+			<div class="page-header">
+					<h2 itemprop="name">
+				Hello World Examples			</h2>
+									</div>
+					
+	
+	
+				
+								<div itemprop="articleBody">
+		<h2>Hello_world example</h2>
+<p style="text-align: justify;">In this section you can see a simple Hello World synchronous and asynchronous. In Pyactive_Project you can find more complex examples into Examples folder.</p>
+<p style="text-align: justify;">Moreover, we design a <a style="font-size: 12.16px; line-height: 15.808px;" href="https://github.com/cloudspaces/pyactive/tree/master/pyactive_project/examples/tutorial">turorial</a> with a lot of examples, you can find this tutorial in examples/turorial.</p>
+<p><strong>Hello_World Synchronous</strong></p>
+<pre><code>    from pyactive.controller import init_host, launch,start_controller, sleep
+    class Server():
+        _sync = {'hello_world':'1'}
+        _async = []
+       	_parallel = []
+       	_ref = []
+    <br />   	def hello_world(self):
+     	    return 'hello world'
+
+        def test():
+     	    host = init_host()
+
+            # parameters 1 = 'id', 'test_sync' = module name, 'Server' = class name
+            n1 = host.spawn_id('1', 'test_sync', 'Server', [])
+
+            response = n1.hello_world()
+            print response
+<br />        if __name__ == '__main__':
+            #you can change the parameter 'pyactive_thread' to 'tasklet'  if you would like to run the Stackless model controller.
+            start_controller('pyactive_thread')
+            launch(test)
+</code></pre>
+<p><strong>Hello_World Asynchronous</strong></p>
+<pre><code>    from pyactive.controller import init_host, launch,start_controller, sleep
+    <br />    class Server():
+      	_sync = {}
+       	_async = ['hello_world']
+       	_parallel = []
+       	_ref = []<br />
+       	def hello_world(self):
+    	    print 'hello world'
+
+    def test():
+        host = init_host()
+
+        # parameters 1 = 'id', 'test_async' = module name, 'Server' = class name
+        n1 = host.spawn_id('1', 'test_async', 'Server', [])
+        n1.hello_world()
+        <br />    if __name__ == '__main__':
+       	#you can change the parameter 'pyactive_thread' to 'tasklet'  if you would like to run the Stackless model controller.
+       	start_controller('pyactive_thread')
+       	launch(test)</code></pre> 	</div>
+
+	
+							</div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,1076 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">
+	<title type="text">User Guide</title>
+	<subtitle type="text"></subtitle>
+	<link rel="alternate" type="text/html" href="http://127.0.0.1"/>
+	<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials</id>
+	<updated>2026-10-27T07:53:56+00:00</updated>
+	<author>
+		<name>PyActive</name>
+	</author>
+	<generator uri="http://joomla.org">Joomla! - Open Source Content Management</generator>
+	<link rel="self" type="application/atom+xml" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials?format=feed&amp;type=atom"/>
+	<entry>
+		<title>Evaluation</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/22-evaluation"/>
+		<published>2016-01-26T08:08:43+00:00</published>
+		<updated>2016-01-26T08:08:43+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/22-evaluation</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;h1&gt;Evaluating the Expressiveness and Simplicity of Our Approach&lt;/h1&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; In this experiment we are comparing the complexity of the Chord algorithm implementation in four platforms: Macedon, PlanetSim, PeerSim, and PyActive. PlanetSim and PeerSim are P2P event simulators implemented in the Java language. They are very popular and widely used in the P2P community and they provide a simple framework for developing decentralized scalable algorithms. Continuation Complexity: A Callback Hell for Distributed Systems 295 Macedon is a Domain Specific Language (DSL) that generates code for the Ns-2 simulator and C++ code with sockets for experimentation. The DSL is based on event-driven finite state machines and it claims a reduction in lines of code and simplicity of the implemented distributed algorithms.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Even if we are comparing different programming languages (Java in PeerSim and Planetsim, DSL in Macedon, Python in our Actor library) the comparison is useful to understand different approaches of implementing the same Chord algorithm. PlanetSim and PeerSim are good examples of the Callback Hell since they require complex callback handlers and message programming. They had to break the elegant Chord RPCs into different code fragments clearly showing our Continuation Complexity Problem.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Macedon is a different approach that uses a DSL and state machines to simplify message handling. But again, it resulted in a complex code that is far from the simplicity of Chord sequential code using RPCs.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Before comparing the code, it is important to outline that the different versions are not implementing the Chord algorithm exactly as stated in the original article. For example, Macedon only implements a successor list of size 2, and their fix finger protocol is using the simpler update others variant that is not recommended for real settings.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Regarding PeerSim, it is important to outline that their implementation is not completely event-based because they also use object invocation short-cuts to simplify the code. In this line, Nodes access the getProtocol() method that provides a clone of the desired node. Finally, PlanetSim provides a fully event-oriented implementation of Chord, but the implementation of the successor list does not consider all possible cases and errors in the protocol.&lt;/p&gt;
+&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/validation_pyactive.png&quot; alt=&quot;&quot; width=&quot;698&quot; height=&quot;258&quot; /&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As we can see in the Fig. 4 our approach (PyActive, JPyActive) is providing the simplest solution. Note that we also implemented a Java version (JPyactive) to be fair in the comparison with other Java-based solutions like PlanetSim or Peersim. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; Our implementation has less LoC. Furthermore, our implementation is simpler and easier to understand that any of the presented alternatives. Our object oriented model is straightforward and it does not need additional understanding of messages, handlers and states. Macedon, PeerSim, and PlanetSim will require an understanding of messages and transitions that is more intricate that the simplicity of sequence diagrams in an object oriented design.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;It is worth comparing the different approaches in code complexity (i.e., Cyclomatic Complexity). Again, our implementation is beating the other proposals in the overall complexity and in the most complex method. One important reason is that our model avoids large message handling conditionals because messages are cleanly mapped to methods. Furthermore, synchronous calls that return results are naturally mapped to method invocations, whereas event-based approaches must split these invocations in requests and responses.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As we can see, even accepting that the Python language produces less lines of code compared to Java (e.g., PeerSim or PlanetSim), we have demonstrated that our additional reduction in terms of complexity and LoC is very meaningful. There are two main reasons: continuation complexity and message handling complexity. The continuation complexity is reduced in our model thanks to syn- chronous calls masked by proxies. The message handling complexity is reduced by the transparent mapping of messages to method calls in the Active Object pattern.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In particular, four methods in the Chord original algorithm present Continuation Complexity: find predecessor, fix finger, stabilize, and join. All of them should be changed in an asynchronous programming model, and thus requiring different code fragments (request, response, and timeout) for RPCs. In our case, we implemented Chord as a slight modification of Chord’s original OOP code. Just by annotating the remote abstractions in the class, we can run Chord in an Actor library that also permits remote Actors in a transparent way.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;On the contrary, the rest of the implementations (Macedon, PlanetSim, Peer- Sim) suffer from the continuation complexity problem in different degrees. Each takes a different strategy but all of them need to break every RPC in two code fragments (request and response). Regarding Timeouts, some declare a time- out function for every method, or they can reuse the timeout handler for all methods. So for example, Macedon is breaking find predecessor in three code fragments (request, reply, timeout), but they are duplicated for different states of the protocol (joined, joining). Macedon does not add another function for the iteration but the additional code is found inside the response handler. PlanetSim and PeerSim also include handlers for requests, responses and timeouts inside their code implementing implicit continuations.&lt;/p&gt;</summary>
+		<content type="html">&lt;h1&gt;Evaluating the Expressiveness and Simplicity of Our Approach&lt;/h1&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; In this experiment we are comparing the complexity of the Chord algorithm implementation in four platforms: Macedon, PlanetSim, PeerSim, and PyActive. PlanetSim and PeerSim are P2P event simulators implemented in the Java language. They are very popular and widely used in the P2P community and they provide a simple framework for developing decentralized scalable algorithms. Continuation Complexity: A Callback Hell for Distributed Systems 295 Macedon is a Domain Specific Language (DSL) that generates code for the Ns-2 simulator and C++ code with sockets for experimentation. The DSL is based on event-driven finite state machines and it claims a reduction in lines of code and simplicity of the implemented distributed algorithms.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Even if we are comparing different programming languages (Java in PeerSim and Planetsim, DSL in Macedon, Python in our Actor library) the comparison is useful to understand different approaches of implementing the same Chord algorithm. PlanetSim and PeerSim are good examples of the Callback Hell since they require complex callback handlers and message programming. They had to break the elegant Chord RPCs into different code fragments clearly showing our Continuation Complexity Problem.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Macedon is a different approach that uses a DSL and state machines to simplify message handling. But again, it resulted in a complex code that is far from the simplicity of Chord sequential code using RPCs.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Before comparing the code, it is important to outline that the different versions are not implementing the Chord algorithm exactly as stated in the original article. For example, Macedon only implements a successor list of size 2, and their fix finger protocol is using the simpler update others variant that is not recommended for real settings.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Regarding PeerSim, it is important to outline that their implementation is not completely event-based because they also use object invocation short-cuts to simplify the code. In this line, Nodes access the getProtocol() method that provides a clone of the desired node. Finally, PlanetSim provides a fully event-oriented implementation of Chord, but the implementation of the successor list does not consider all possible cases and errors in the protocol.&lt;/p&gt;
+&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/validation_pyactive.png&quot; alt=&quot;&quot; width=&quot;698&quot; height=&quot;258&quot; /&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As we can see in the Fig. 4 our approach (PyActive, JPyActive) is providing the simplest solution. Note that we also implemented a Java version (JPyactive) to be fair in the comparison with other Java-based solutions like PlanetSim or Peersim. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; Our implementation has less LoC. Furthermore, our implementation is simpler and easier to understand that any of the presented alternatives. Our object oriented model is straightforward and it does not need additional understanding of messages, handlers and states. Macedon, PeerSim, and PlanetSim will require an understanding of messages and transitions that is more intricate that the simplicity of sequence diagrams in an object oriented design.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;It is worth comparing the different approaches in code complexity (i.e., Cyclomatic Complexity). Again, our implementation is beating the other proposals in the overall complexity and in the most complex method. One important reason is that our model avoids large message handling conditionals because messages are cleanly mapped to methods. Furthermore, synchronous calls that return results are naturally mapped to method invocations, whereas event-based approaches must split these invocations in requests and responses.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As we can see, even accepting that the Python language produces less lines of code compared to Java (e.g., PeerSim or PlanetSim), we have demonstrated that our additional reduction in terms of complexity and LoC is very meaningful. There are two main reasons: continuation complexity and message handling complexity. The continuation complexity is reduced in our model thanks to syn- chronous calls masked by proxies. The message handling complexity is reduced by the transparent mapping of messages to method calls in the Active Object pattern.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In particular, four methods in the Chord original algorithm present Continuation Complexity: find predecessor, fix finger, stabilize, and join. All of them should be changed in an asynchronous programming model, and thus requiring different code fragments (request, response, and timeout) for RPCs. In our case, we implemented Chord as a slight modification of Chord’s original OOP code. Just by annotating the remote abstractions in the class, we can run Chord in an Actor library that also permits remote Actors in a transparent way.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;On the contrary, the rest of the implementations (Macedon, PlanetSim, Peer- Sim) suffer from the continuation complexity problem in different degrees. Each takes a different strategy but all of them need to break every RPC in two code fragments (request and response). Regarding Timeouts, some declare a time- out function for every method, or they can reuse the timeout handler for all methods. So for example, Macedon is breaking find predecessor in three code fragments (request, reply, timeout), but they are duplicated for different states of the protocol (joined, joining). Macedon does not add another function for the iteration but the additional code is found inside the response handler. PlanetSim and PeerSim also include handlers for requests, responses and timeouts inside their code implementing implicit continuations.&lt;/p&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Introduction</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/7-introduction"/>
+		<published>2013-11-13T15:10:33+00:00</published>
+		<updated>2013-11-13T15:10:33+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/7-introduction</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;h2 style=&quot;text-align: justify;&quot;&gt;Description&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive is a novel object oriented implementation of the Actor model in Python. What it is novel in our approach is the tight integration with OO concepts that considerably simplifies the use of this library.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In particular, PyActive provides non-blocking synchronous invocations in Actors. Unlike traditional Actor frameworks that only provide asynchronous calls, our library offers synchronous non-blocking calls that respect and maintain the message-passing concurrency model. To this end, we have implemented a variant of the Active Object pattern using both Threads and micro-Threads (Stackless). We demonstrate in complex examples like the Chord overlay that our approach reduces substantially the complexity and Lines of Code (LoC) of the problem.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive follows a pure object oriented approach for method invocation. Other actor frameworks use special notations (!) for sending messages and pattern matching or conditionals to receive them. Instead of that, Pyactive middleware transparently maps messages to methods and thus achieving better code expressiveness.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive also includes advanced abstractions like remote reference passing, one-to-many invocation abstractions, and exception handling to ease the implementation of distributed algorithms. PyActive is also a distributed object middleware and it offers remote dispatchers enabling remote method invocation. Finally, PyActive's log mechanisms can generate UML sequence diagrams that help to understand the interactions among Actors using a OO aproach.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive is now provided in two platforms: using cooperative microthreads on top of Stackless Python and on top of python threads using the standard threading library. We validated the performance and expressiveness of Pyactive to code distributed algorithms.&lt;/p&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#basic-method-abstractions&quot; name=&quot;basic-method-abstractions&quot;&gt;&lt;/a&gt;Basic method abstractions&lt;/h2&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;async&lt;/strong&gt;: It’s used to indicate the method can receive asynchronous remote calls.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;sync&lt;/strong&gt;: It’s used to indicate the method can receive synchronous remote calls. So it’s necessary to return something.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;parallel&lt;/strong&gt;: It guarantees that the current method will not be blocked in a synchronous call by launching an additional thread of control. Our library ensures that no concurrency conflicts arise by ensuring that only one thread at a time can access the Passive Object.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ref&lt;/strong&gt;: It’s used to activate the remote reference layer in this method. This means that one parameter or result are Actors. So this annotation guarantees pass-by-reference.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#basic-functions&quot; name=&quot;basic-functions&quot;&gt;&lt;/a&gt;Basic Functions&lt;/h2&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;start_controller&lt;/strong&gt;: It's used to choose the module. At this moment, we can choose between 'atom_thread' and 'tasklet'. Note that this decision can change the python version that you need. For example the 'tasklet' module needs Stackless Python.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;launch&lt;/strong&gt;: It's used to throw the main function which initializes the program. Once this function ends, the program will die.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;serve_forever&lt;/strong&gt;. It’s used like launch function but once the function ends, the program continues.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#what-do-you-need-to-run-pyactive&quot; name=&quot;what-do-you-need-to-run-pyactive&quot;&gt;&lt;/a&gt;What do you need to run PyActive?&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In this section we explain all you need to use this middleware. It's easy!&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Into Pyactive_Project folder you can find how to install the middleware in INSTALL.txt.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Requirements&lt;/strong&gt;&lt;/p&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;If you only use the threads module, you only need Python 2.7&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If you need use the stackless version, you need Python 2.7 with Stackless Python&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;You can download Python in: &lt;a href=&quot;http://www.python.org/download/&quot;&gt;http://www.python.org/download/&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Once you have installed python, the next step is to install Stackless python. You can download Stackless python at: [&lt;a href=&quot;http://www.stackless.com/&quot;&gt;http://www.stackless.com/&lt;/a&gt;]&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive contains some examples and tests. You can run the following tests:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    $&amp;gt; cd/pyactive
+    $&amp;gt; python ./examples/hello_world/hello_world_sync.py
+    $&amp;gt; python ./examples/hello_world/hello_world_async.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Choose the module using the function: 'start_controller'. Nowadays, you can put either the parameter 'tasklet' or 'pyactive_thread' to choose the module. Note that you choose the tasklet module, you need the Stacklees Python.&lt;/p&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;br /&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#hello_world-example&quot; name=&quot;hello_world-example&quot;&gt;&lt;/a&gt;&lt;/h2&gt;</summary>
+		<content type="html">&lt;h2 style=&quot;text-align: justify;&quot;&gt;Description&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive is a novel object oriented implementation of the Actor model in Python. What it is novel in our approach is the tight integration with OO concepts that considerably simplifies the use of this library.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In particular, PyActive provides non-blocking synchronous invocations in Actors. Unlike traditional Actor frameworks that only provide asynchronous calls, our library offers synchronous non-blocking calls that respect and maintain the message-passing concurrency model. To this end, we have implemented a variant of the Active Object pattern using both Threads and micro-Threads (Stackless). We demonstrate in complex examples like the Chord overlay that our approach reduces substantially the complexity and Lines of Code (LoC) of the problem.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive follows a pure object oriented approach for method invocation. Other actor frameworks use special notations (!) for sending messages and pattern matching or conditionals to receive them. Instead of that, Pyactive middleware transparently maps messages to methods and thus achieving better code expressiveness.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive also includes advanced abstractions like remote reference passing, one-to-many invocation abstractions, and exception handling to ease the implementation of distributed algorithms. PyActive is also a distributed object middleware and it offers remote dispatchers enabling remote method invocation. Finally, PyActive's log mechanisms can generate UML sequence diagrams that help to understand the interactions among Actors using a OO aproach.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive is now provided in two platforms: using cooperative microthreads on top of Stackless Python and on top of python threads using the standard threading library. We validated the performance and expressiveness of Pyactive to code distributed algorithms.&lt;/p&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#basic-method-abstractions&quot; name=&quot;basic-method-abstractions&quot;&gt;&lt;/a&gt;Basic method abstractions&lt;/h2&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;async&lt;/strong&gt;: It’s used to indicate the method can receive asynchronous remote calls.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;sync&lt;/strong&gt;: It’s used to indicate the method can receive synchronous remote calls. So it’s necessary to return something.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;parallel&lt;/strong&gt;: It guarantees that the current method will not be blocked in a synchronous call by launching an additional thread of control. Our library ensures that no concurrency conflicts arise by ensuring that only one thread at a time can access the Passive Object.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ref&lt;/strong&gt;: It’s used to activate the remote reference layer in this method. This means that one parameter or result are Actors. So this annotation guarantees pass-by-reference.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#basic-functions&quot; name=&quot;basic-functions&quot;&gt;&lt;/a&gt;Basic Functions&lt;/h2&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;start_controller&lt;/strong&gt;: It's used to choose the module. At this moment, we can choose between 'atom_thread' and 'tasklet'. Note that this decision can change the python version that you need. For example the 'tasklet' module needs Stackless Python.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;launch&lt;/strong&gt;: It's used to throw the main function which initializes the program. Once this function ends, the program will die.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;serve_forever&lt;/strong&gt;. It’s used like launch function but once the function ends, the program continues.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#what-do-you-need-to-run-pyactive&quot; name=&quot;what-do-you-need-to-run-pyactive&quot;&gt;&lt;/a&gt;What do you need to run PyActive?&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In this section we explain all you need to use this middleware. It's easy!&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Into Pyactive_Project folder you can find how to install the middleware in INSTALL.txt.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Requirements&lt;/strong&gt;&lt;/p&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;If you only use the threads module, you only need Python 2.7&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If you need use the stackless version, you need Python 2.7 with Stackless Python&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;You can download Python in: &lt;a href=&quot;http://www.python.org/download/&quot;&gt;http://www.python.org/download/&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Once you have installed python, the next step is to install Stackless python. You can download Stackless python at: [&lt;a href=&quot;http://www.stackless.com/&quot;&gt;http://www.stackless.com/&lt;/a&gt;]&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;PyActive contains some examples and tests. You can run the following tests:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    $&amp;gt; cd/pyactive
+    $&amp;gt; python ./examples/hello_world/hello_world_sync.py
+    $&amp;gt; python ./examples/hello_world/hello_world_async.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Choose the module using the function: 'start_controller'. Nowadays, you can put either the parameter 'tasklet' or 'pyactive_thread' to choose the module. Note that you choose the tasklet module, you need the Stacklees Python.&lt;/p&gt;
+&lt;h2 style=&quot;text-align: justify;&quot;&gt;&lt;br /&gt;&lt;a class=&quot;anchor&quot; href=&quot;https://github.com/cloudspaces/pyactive#hello_world-example&quot; name=&quot;hello_world-example&quot;&gt;&lt;/a&gt;&lt;/h2&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Hello World Examples</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/9-hello-world-examples"/>
+		<published>2013-11-13T21:41:46+00:00</published>
+		<updated>2013-11-13T21:41:46+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/9-hello-world-examples</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;h2&gt;Hello_world example&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In this section you can see a simple Hello World synchronous and asynchronous. In Pyactive_Project you can find more complex examples into Examples folder.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Moreover, we design a &lt;a style=&quot;font-size: 12.16px; line-height: 15.808px;&quot; href=&quot;https://github.com/cloudspaces/pyactive/tree/master/pyactive_project/examples/tutorial&quot;&gt;turorial&lt;/a&gt; with a lot of examples, you can find this tutorial in examples/turorial.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hello_World Synchronous&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    from pyactive.controller import init_host, launch,start_controller, sleep
+    class Server():
+        _sync = {'hello_world':'1'}
+        _async = []
+       	_parallel = []
+       	_ref = []
+    &lt;br /&gt;   	def hello_world(self):
+     	    return 'hello world'
+
+        def test():
+     	    host = init_host()
+
+            # parameters 1 = 'id', 'test_sync' = module name, 'Server' = class name
+            n1 = host.spawn_id('1', 'test_sync', 'Server', [])
+
+            response = n1.hello_world()
+            print response
+&lt;br /&gt;        if __name__ == '__main__':
+            #you can change the parameter 'pyactive_thread' to 'tasklet'  if you would like to run the Stackless model controller.
+            start_controller('pyactive_thread')
+            launch(test)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Hello_World Asynchronous&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    from pyactive.controller import init_host, launch,start_controller, sleep
+    &lt;br /&gt;    class Server():
+      	_sync = {}
+       	_async = ['hello_world']
+       	_parallel = []
+       	_ref = []&lt;br /&gt;
+       	def hello_world(self):
+    	    print 'hello world'
+
+    def test():
+        host = init_host()
+
+        # parameters 1 = 'id', 'test_async' = module name, 'Server' = class name
+        n1 = host.spawn_id('1', 'test_async', 'Server', [])
+        n1.hello_world()
+        &lt;br /&gt;    if __name__ == '__main__':
+       	#you can change the parameter 'pyactive_thread' to 'tasklet'  if you would like to run the Stackless model controller.
+       	start_controller('pyactive_thread')
+       	launch(test)&lt;/code&gt;&lt;/pre&gt;</summary>
+		<content type="html">&lt;h2&gt;Hello_world example&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In this section you can see a simple Hello World synchronous and asynchronous. In Pyactive_Project you can find more complex examples into Examples folder.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Moreover, we design a &lt;a style=&quot;font-size: 12.16px; line-height: 15.808px;&quot; href=&quot;https://github.com/cloudspaces/pyactive/tree/master/pyactive_project/examples/tutorial&quot;&gt;turorial&lt;/a&gt; with a lot of examples, you can find this tutorial in examples/turorial.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hello_World Synchronous&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    from pyactive.controller import init_host, launch,start_controller, sleep
+    class Server():
+        _sync = {'hello_world':'1'}
+        _async = []
+       	_parallel = []
+       	_ref = []
+    &lt;br /&gt;   	def hello_world(self):
+     	    return 'hello world'
+
+        def test():
+     	    host = init_host()
+
+            # parameters 1 = 'id', 'test_sync' = module name, 'Server' = class name
+            n1 = host.spawn_id('1', 'test_sync', 'Server', [])
+
+            response = n1.hello_world()
+            print response
+&lt;br /&gt;        if __name__ == '__main__':
+            #you can change the parameter 'pyactive_thread' to 'tasklet'  if you would like to run the Stackless model controller.
+            start_controller('pyactive_thread')
+            launch(test)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Hello_World Asynchronous&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    from pyactive.controller import init_host, launch,start_controller, sleep
+    &lt;br /&gt;    class Server():
+      	_sync = {}
+       	_async = ['hello_world']
+       	_parallel = []
+       	_ref = []&lt;br /&gt;
+       	def hello_world(self):
+    	    print 'hello world'
+
+    def test():
+        host = init_host()
+
+        # parameters 1 = 'id', 'test_async' = module name, 'Server' = class name
+        n1 = host.spawn_id('1', 'test_async', 'Server', [])
+        n1.hello_world()
+        &lt;br /&gt;    if __name__ == '__main__':
+       	#you can change the parameter 'pyactive_thread' to 'tasklet'  if you would like to run the Stackless model controller.
+       	start_controller('pyactive_thread')
+       	launch(test)&lt;/code&gt;&lt;/pre&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Parallel Abstraction</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/18-parallel"/>
+		<published>2013-11-20T17:04:19+00:00</published>
+		<updated>2013-11-20T17:04:19+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/18-parallel</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;h2 style=&quot;text-align: justify;&quot;&gt;Context&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The Continuation Complexity problem leads us to a paradox in Actor models: synchronous blocking calls are needed to correctly implement RPCs in order to avoid breaking the code into asynchronous messages and handlers. But Actor models are purely asynchronous, and using synchronous calls would block the calling Actor unique thread of control until the response arrives. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The aforementioned paradox also represents a burden for Object Oriented Actor libraries. If only asynchronous calls are allowed, the resulting code breaks with the traditional object oriented paradigm and complicates the resulting code.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;To solve this problem, we present a novel method invocation abstraction called parallel, enabling synchronous invocations to other Actors, without stalling the current Actor’s thread of control. Our parallel calls enable concurrent interleavings of method executions within a single Actor.&lt;/p&gt;
+&lt;h3&gt;Concurrency Control&lt;/h3&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The major challenge is to enable concurrent interleaving of method executions within a single Actor. We mainly want to allow the main Actor thread to continue processing incoming method requests while the parallel thread is blocked waiting for a response in a remote Actor due to a synchronous invocation.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;We present two solutions: one based on threads and locks and another based on green threads and continuations, &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Solution 1 Threads:&lt;/strong&gt; The Actor implementation will spawn normal threads in the Scheduler and Parallel Methods threads. To achieve consistency between Scheduler and Parallel threads, we use traditional Thread Lock mechanisms that prevent multiple threads to access the same object at the same time. Similar to the Monitor Object pattern, we use a Lock in the Actor object that is only activated when parallel threads are spawned. We aim to provide here a simple solution to demonstrate that parallel threads can coexist with the Actor main thread without conflicting with the servant object shared state. Our lock mechanism is completely transparent to the developer, so that the simplicity of the message passing concurrency model is not affected. &lt;/p&gt;
+&lt;p&gt; &lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/Concurrency_diagram_v8.png&quot; alt=&quot;&quot; width=&quot;711&quot; height=&quot;503&quot; /&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In the figure above we can see how our solution handles the concurrency problem. In this flow diagram we can observe where it uses the Lock acquire and Lock release primitives in a call flow. In addition, it is necessary to know that a single Lock is shared between Actor and Parallel Threads wrappers for each Actor. The life cycle is the following: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Acquire:&lt;/strong&gt; When a call is incoming, if it exists some parallel call in the object, we need to acquire the lock to be sure that only one thread at this time is using the object. In Fig. 2, we show an example with a parallel synchronous call. At this moment, a parallel thread takes the control of the object, and any other thread can not access to the object.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Release:&lt;/strong&gt; The parallel thread sends the synchronous invocation to a remote actor. In this moment, the parallel actor releases the lock so that the main thread or other parallel threads can continue working. This is the key point where the Actor is not blocked until the response arrives, and it can process incoming messages.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Acquire:&lt;/strong&gt; While the parallel thread is waiting the response, our main thread and other parallel threads can serve other petitions. When the response arrives to the Proxy, the Parallel thread will be able to continue execut- ing the method. Nonetheless, it must try to acquire the Lock, because it is possible that the Lock is now in possession of another Thread.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Release:&lt;/strong&gt; Finally, when the multicalls return object method ends, the parallel synchronous wrapper will release the Lock, and it will end its process.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As we can see, our solution ensures that only one thread access the shared state, but also that waiting for a response in a parallel thread will not preclude the main thread to process incoming messages. Obviously, we control whether the response will not return using a timeout. Using this system we guarantee that the main thread will not be blocked even if the response does not arrive.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Our solution permits to increase the Actor service time because it avoids blocking the Actor during synchronous invocations. We guarantee the correct interleavings of Actor parallel and main threads. Furthermore, we maintain the simplicity of message passing concurrency since the developer is still unaware of this concurrency control mechanisms. He must only tag the appropriate methods as parallel when necessary.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Solution 2: Micro Threads and Continuations: In this case, we can use the same figure used in the solution 1, but removing the acquire and release invocations. In that case, we don’t need to use a lock system. This is because in a single-threaded environment, two microthreads cannot modify the same state at the same time because their execution is sequential.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;We assume here that the send and receive primitives in microthreads will execute a context-switch to other green thread processing the communication to other Actor. Following, we will try to explain better this process, step by step:&lt;/p&gt;
+&lt;ol style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;&lt;strong&gt;send:&lt;/strong&gt; When a proxy sends a synchronous message to another Actor, it auto- matically releases its control to other microthread.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;receive:&lt;/strong&gt; Parallel microthread will be inactive until it will receive a message. At moment that it will receive a message it will wake up and wait for its turn to continue the method execution. The implicit continuation implies that the code continues from that point.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Since send and receive policies are executed inside the Proxy, the developer is completely unaware of context-switches and continuations. Furthermore, in this case there is no need to use locks to prevent concurrent access.&lt;/p&gt;
+&lt;h3&gt;&lt;span style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.3em;&quot;&gt;Example using parallel&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 15.808px;&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you remove the start method from parallel list, you will be able to look another result, because the node 1 will be blocked.&lt;/span&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;from pyactive.controller import init_host, launch, start_controller, sleep
+
+class Node(object):
+    _sync = {'send_msg':'50', 'return_msg':'50'}
+    _async = ['print_some', 'start', 'start_n3', &quot;registry_node&quot;]
+    _parallel = []
+    _ref = [&quot;registry_node&quot;]
+
+    def registry_node(self, n2):
+        self.remote = n2
+
+    def send_msg(self):
+        print self.remote
+        msg = self.remote.return_msg()
+        print msg
+        return True
+
+    def return_msg(self):
+        print 'im here'
+        sleep(10)
+        print 'after sleep'
+        return 'Hello World'
+
+    def print_some(self):
+        print 'hello print some'
+
+    def start(self):
+        print 'call ...'
+        msg = self.remote.return_msg()
+        print msg
+
+    def start_n3(self):
+        for i in range(6):
+            self.remote.print_some()
+
+def test1():
+    host = init_host()
+    n2 = host.spawn_id('2','parallel1','Node',[])
+    n1 = host.spawn_id('1','parallel1','Node',[])
+    n3 = host.spawn_id('3','parallel1','Node',[])
+    n2.registry_node(n1)
+    n1.registry_node(n2)
+    n3.registry_node(n1)
+    n1.start()
+    sleep(1)
+    n3.start_n3()
+    sleep(10)
+
+
+def main():
+    start_controller('pyactive_thread')
+    launch(test1)
+
+if __name__ == &quot;__main__&quot;:
+    main()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;/p&gt;</summary>
+		<content type="html">&lt;h2 style=&quot;text-align: justify;&quot;&gt;Context&lt;/h2&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The Continuation Complexity problem leads us to a paradox in Actor models: synchronous blocking calls are needed to correctly implement RPCs in order to avoid breaking the code into asynchronous messages and handlers. But Actor models are purely asynchronous, and using synchronous calls would block the calling Actor unique thread of control until the response arrives. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The aforementioned paradox also represents a burden for Object Oriented Actor libraries. If only asynchronous calls are allowed, the resulting code breaks with the traditional object oriented paradigm and complicates the resulting code.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;To solve this problem, we present a novel method invocation abstraction called parallel, enabling synchronous invocations to other Actors, without stalling the current Actor’s thread of control. Our parallel calls enable concurrent interleavings of method executions within a single Actor.&lt;/p&gt;
+&lt;h3&gt;Concurrency Control&lt;/h3&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The major challenge is to enable concurrent interleaving of method executions within a single Actor. We mainly want to allow the main Actor thread to continue processing incoming method requests while the parallel thread is blocked waiting for a response in a remote Actor due to a synchronous invocation.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;We present two solutions: one based on threads and locks and another based on green threads and continuations, &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Solution 1 Threads:&lt;/strong&gt; The Actor implementation will spawn normal threads in the Scheduler and Parallel Methods threads. To achieve consistency between Scheduler and Parallel threads, we use traditional Thread Lock mechanisms that prevent multiple threads to access the same object at the same time. Similar to the Monitor Object pattern, we use a Lock in the Actor object that is only activated when parallel threads are spawned. We aim to provide here a simple solution to demonstrate that parallel threads can coexist with the Actor main thread without conflicting with the servant object shared state. Our lock mechanism is completely transparent to the developer, so that the simplicity of the message passing concurrency model is not affected. &lt;/p&gt;
+&lt;p&gt; &lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/Concurrency_diagram_v8.png&quot; alt=&quot;&quot; width=&quot;711&quot; height=&quot;503&quot; /&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In the figure above we can see how our solution handles the concurrency problem. In this flow diagram we can observe where it uses the Lock acquire and Lock release primitives in a call flow. In addition, it is necessary to know that a single Lock is shared between Actor and Parallel Threads wrappers for each Actor. The life cycle is the following: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Acquire:&lt;/strong&gt; When a call is incoming, if it exists some parallel call in the object, we need to acquire the lock to be sure that only one thread at this time is using the object. In Fig. 2, we show an example with a parallel synchronous call. At this moment, a parallel thread takes the control of the object, and any other thread can not access to the object.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Release:&lt;/strong&gt; The parallel thread sends the synchronous invocation to a remote actor. In this moment, the parallel actor releases the lock so that the main thread or other parallel threads can continue working. This is the key point where the Actor is not blocked until the response arrives, and it can process incoming messages.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Acquire:&lt;/strong&gt; While the parallel thread is waiting the response, our main thread and other parallel threads can serve other petitions. When the response arrives to the Proxy, the Parallel thread will be able to continue execut- ing the method. Nonetheless, it must try to acquire the Lock, because it is possible that the Lock is now in possession of another Thread.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Release:&lt;/strong&gt; Finally, when the multicalls return object method ends, the parallel synchronous wrapper will release the Lock, and it will end its process.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As we can see, our solution ensures that only one thread access the shared state, but also that waiting for a response in a parallel thread will not preclude the main thread to process incoming messages. Obviously, we control whether the response will not return using a timeout. Using this system we guarantee that the main thread will not be blocked even if the response does not arrive.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Our solution permits to increase the Actor service time because it avoids blocking the Actor during synchronous invocations. We guarantee the correct interleavings of Actor parallel and main threads. Furthermore, we maintain the simplicity of message passing concurrency since the developer is still unaware of this concurrency control mechanisms. He must only tag the appropriate methods as parallel when necessary.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Solution 2: Micro Threads and Continuations: In this case, we can use the same figure used in the solution 1, but removing the acquire and release invocations. In that case, we don’t need to use a lock system. This is because in a single-threaded environment, two microthreads cannot modify the same state at the same time because their execution is sequential.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;We assume here that the send and receive primitives in microthreads will execute a context-switch to other green thread processing the communication to other Actor. Following, we will try to explain better this process, step by step:&lt;/p&gt;
+&lt;ol style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;&lt;strong&gt;send:&lt;/strong&gt; When a proxy sends a synchronous message to another Actor, it auto- matically releases its control to other microthread.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;receive:&lt;/strong&gt; Parallel microthread will be inactive until it will receive a message. At moment that it will receive a message it will wake up and wait for its turn to continue the method execution. The implicit continuation implies that the code continues from that point.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Since send and receive policies are executed inside the Proxy, the developer is completely unaware of context-switches and continuations. Furthermore, in this case there is no need to use locks to prevent concurrent access.&lt;/p&gt;
+&lt;h3&gt;&lt;span style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.3em;&quot;&gt;Example using parallel&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 15.808px;&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you remove the start method from parallel list, you will be able to look another result, because the node 1 will be blocked.&lt;/span&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;from pyactive.controller import init_host, launch, start_controller, sleep
+
+class Node(object):
+    _sync = {'send_msg':'50', 'return_msg':'50'}
+    _async = ['print_some', 'start', 'start_n3', &quot;registry_node&quot;]
+    _parallel = []
+    _ref = [&quot;registry_node&quot;]
+
+    def registry_node(self, n2):
+        self.remote = n2
+
+    def send_msg(self):
+        print self.remote
+        msg = self.remote.return_msg()
+        print msg
+        return True
+
+    def return_msg(self):
+        print 'im here'
+        sleep(10)
+        print 'after sleep'
+        return 'Hello World'
+
+    def print_some(self):
+        print 'hello print some'
+
+    def start(self):
+        print 'call ...'
+        msg = self.remote.return_msg()
+        print msg
+
+    def start_n3(self):
+        for i in range(6):
+            self.remote.print_some()
+
+def test1():
+    host = init_host()
+    n2 = host.spawn_id('2','parallel1','Node',[])
+    n1 = host.spawn_id('1','parallel1','Node',[])
+    n3 = host.spawn_id('3','parallel1','Node',[])
+    n2.registry_node(n1)
+    n1.registry_node(n2)
+    n3.registry_node(n1)
+    n1.start()
+    sleep(1)
+    n3.start_n3()
+    sleep(10)
+
+
+def main():
+    start_controller('pyactive_thread')
+    launch(test1)
+
+if __name__ == &quot;__main__&quot;:
+    main()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;/p&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Log System</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/15-log-system"/>
+		<published>2013-11-14T17:49:24+00:00</published>
+		<updated>2013-11-14T17:49:24+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/15-log-system</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;p style=&quot;text-align: justify;&quot;&gt;A complex issue in our platform is how to debug distributed code involving complex one-to-one and one-to-many abstractions among Actors. One of the major drawbacks of the Actor model is the complexity of debugging the code. But it is also true that debugging distributed applications that communicate using asynchronous messages and callbacks are notoriously hard to debug and follow. Our approach here is to offer good event tracing capacities for Actors. Hence, we offer a log system that allows register all the generated events through the actors.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;To achieve this log system, PyActive only needs to intercept all the messages between actors. Although, we need an actor that receives all the intercepted messages, where the developer can handle this information (e.g. save the intercepted messages in a file, print the messages through standard output). &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As seen in other sections of this guide, we can bind new actors using spawn_id function. Therefore, to register the log actor, we need to do the same as all the actors, but in this case we need to provide to this actor with all the intercepted messages. Then, we going to explain how to do that.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Firstly, we need to create a new object, which have to have a method called notify. This method must be asynchronous and receive one parameter which will be an intercepted message. Once we have the object with this asynchronous method, the object will be ready to join in the host as an actor. At this point, we have an actor running with an asynchronous method named notify. Now is the moment to tell to PyActive, that this actor will be a log actor who will handle the intercepted messages.So, to indicate to PyActive who is the actor that will act as a log actor, we need to call the &lt;em&gt;set_trace&lt;/em&gt; function which receives as a parameter the reference of the actor which has the log task assigned. Once we have called the&lt;em&gt; set_trace&lt;/em&gt; function, the log system starts, so the log Actor starts to receive messages through the notify method. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;We decided this system methodology because the developer can choose what to do with the messages (save, show, filter...). In this section we show  two different examples about how to use this system: (1) a simple Log which only prints the messages it received, (2) we provide an UML logger that generates sequence diagrams from interactions among Actors.&lt;/p&gt;
+&lt;h3 style=&quot;text-align: justify;&quot;&gt;Example 1: Simple Log &lt;/h3&gt;
+&lt;p&gt;This example shows a simple log actor that we can make.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;class Log():
+    _sync = {}
+    _async = ['notify']
+    _ref = []
+    _parallel = []
+   
+    def notify(self, msg):
+        #print all messages that it receives.
+        print 'log system:', msg&lt;/code&gt;&lt;/pre&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The code above shows you a simple log actor, that implements the notify method, and prints the msg through the standard output.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In the code bellow we show you a full example, with a Server class and the Log class that we showed above. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;class Server():
+    _sync = {'add': '1'}
+    _async = ['substract']
+    _ref = []
+    _parallel = []
+   
+    def add(self,x,y):
+        return x+y
+    def substract(self,x,y):
+        print 'substract',x-y
+
+#This method initialize the test.
+#Registry Log class. Call set_trace method.
+def test_log():
+    host = init_host()
+    log = host.spawn_id('log', 'log','Log',[])
+    host.set_tracer(log)
+    ref = host.spawn_id('1','log','Server',[])
+    ref.substract(6,5)
+    print ref.add(5,5)
+    sleep(1)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;line&quot; style=&quot;text-align: justify;&quot;&gt;&lt;span class=&quot;p&quot;&gt;As you can see in the above code, we have the &lt;em&gt;test_log&lt;/em&gt; function, where we create the host and bind the actors. Note that we link the actor log using the &lt;em&gt;spawn_id&lt;/em&gt; function, and after that, we call the &lt;em&gt;set_trace&lt;/em&gt; function at host, to communicate that the &lt;em&gt;Log actor&lt;/em&gt; will be the actor charged to receive the intercepted messages. &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;text-align: justify;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;text-align: justify;&quot;&gt;&lt;span class=&quot;p&quot;&gt;You can find this example in Examples folder of PyActive project.&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot;&gt; &lt;/div&gt;
+&lt;h3 class=&quot;line&quot;&gt;&lt;span class=&quot;p&quot;&gt;Example 2. UML Log&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;We provide an UML logger that generates sequence diagrams from interactions among Actors. You can view above the code of log class that it generate a specific output document:&lt;/p&gt;
+&lt;div id=&quot;LC12&quot; class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;
+&lt;pre&gt;&lt;code&gt;class LogUML():
+    _sync = {}
+    _async = ['notify', 'to_uml']
+    _ref = []
+    _parallel = []
+    
+    def __init__(self):
+        self.events = []
+        self.nameNodes = {}
+        self.cnt2 = 0
+        self.cont = 0
+        self.nodes = {}
+        self.titles = {}
+        self.list_nodes = []
+        
+ 
+
+    def notify(self,msg):  
+        self.events.append(msg.copy())
+        
+   
+    def to_uml(self, filename):
+        uml = []
+        uml_names = []
+        uml.append('\n')
+        for msg in self.events:
+            fromref = urlparse(msg[FROM])
+            toref = urlparse(msg[TO])
+            if not self.nodes.has_key(fromref.path):
+                self.list_nodes.append(fromref.path)
+                self.nodes[fromref.path] = fromref.path
+            if not self.nodes.has_key(toref.path):
+                self.list_nodes.append(toref.path)
+                self.nodes[toref.path] = toref.path
+            self.titles[fromref.path] = msg[FROM]
+            self.titles[toref.path] = msg[TO]   
+
+        while(self.cnt2 &amp;lt; len(self.list_nodes)):
+            evt = 'n'+str(self.cnt2)+':Process[p] &quot;'+self.titles[self.list_nodes[self.cnt2]]+'&quot;\n'
+            self.nameNodes[self.titles[self.list_nodes[self.cnt2]]] = &quot;n&quot;+str(self.cnt2)
+            uml_names.append(evt)
+            self.cnt2 += 1&lt;br /&gt;
+        uml.append('\n')
+        
+        for msg in self.events:
+            if msg[TYPE]==CALL:
+                fromref = urlparse(msg[FROM])
+                toref = urlparse(msg[TO])
+                nfrom = 'n'+str(self.list_nodes.index(fromref.path))
+                nto = 'n'+str(self.list_nodes.index(toref.path))
+                if isinstance(msg[PARAMS], list):
+                    params = []
+                    for node in msg[PARAMS]:
+                        if isinstance(node, Ref):
+                            params.append(self.nameNodes.get(str(node.get_aref())))
+                        else:
+                            params.append(node)
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'('+str(params)+')\n'
+                else:
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'('+str(msg[PARAMS])+')\n'
+             
+            else:
+                fromref = urlparse(msg[FROM])
+                toref = urlparse(msg[TO])
+                nfrom = 'n'+str(self.list_nodes.index(fromref.path))
+                nto = 'n'+str(self.list_nodes.index(toref.path))
+                if isinstance(msg[RESULT], list):
+                    result = []
+                    for node in msg[RESULT]:
+                        result.append(self.nameNodes.get(str(node.get_aref())))
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'()='+str(result)+'\n'    
+                elif isinstance(msg[RESULT], Ref):
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'()='+self.nameNodes.get(str(msg[RESULT].get_aref()))+'\n'    
+                else:
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'()='+str(msg[RESULT])+'\n'
+           
+            try:
+                uml.append(evt)
+            except:
+                None
+        
+        self.events = []&lt;br /&gt;        # (!) save name
+        write_uml(filename+'_names.sdx', uml_names)&lt;br /&gt;        # (2) save interactions among actors
+        write_uml(filename+'.sdx', uml)
+    
+def write_uml(filename, events):    
+    f3 = open(filename, 'a')
+    f3.writelines(events)
+    f3.close()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span class=&quot;p&quot;&gt;As seen in code, we need to call to_uml method &lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;periodically&lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;, that it transform the messages in UML format. Finally save the results in a file using write_uml method. We separate the uml code in two files: (1) save the names of actors using references, (2) save the interactions among actors. We take this decision because of it's better when exists the possibility to join nodes in a future. Using this solution, final step before generate the sequence diagram, is concatenate two files generated for UMLLog. &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span class=&quot;p&quot;&gt; &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span class=&quot;p&quot;&gt;To view the diagram, we use the &lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;sdedit&lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt; software, which you can obtain in this url: &lt;/span&gt;&lt;a style=&quot;line-height: 1.3em;&quot; href=&quot;http://sdedit.sourceforge.net&quot;&gt;http://sdedit.sourceforge.net&lt;/a&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;. Once concatenated two files, only is necessary open file with sdedit. You obtain a beautiful sequence diagram easily. &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;Next image show you a sequence diagram example with three nodes using chord algorithm:&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/chord_log.png&quot; alt=&quot;&quot; /&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px; text-align: center;&quot;&gt; &lt;em&gt;Sequence Diagram &lt;/em&gt;&lt;/div&gt;</summary>
+		<content type="html">&lt;p style=&quot;text-align: justify;&quot;&gt;A complex issue in our platform is how to debug distributed code involving complex one-to-one and one-to-many abstractions among Actors. One of the major drawbacks of the Actor model is the complexity of debugging the code. But it is also true that debugging distributed applications that communicate using asynchronous messages and callbacks are notoriously hard to debug and follow. Our approach here is to offer good event tracing capacities for Actors. Hence, we offer a log system that allows register all the generated events through the actors.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;To achieve this log system, PyActive only needs to intercept all the messages between actors. Although, we need an actor that receives all the intercepted messages, where the developer can handle this information (e.g. save the intercepted messages in a file, print the messages through standard output). &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As seen in other sections of this guide, we can bind new actors using spawn_id function. Therefore, to register the log actor, we need to do the same as all the actors, but in this case we need to provide to this actor with all the intercepted messages. Then, we going to explain how to do that.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Firstly, we need to create a new object, which have to have a method called notify. This method must be asynchronous and receive one parameter which will be an intercepted message. Once we have the object with this asynchronous method, the object will be ready to join in the host as an actor. At this point, we have an actor running with an asynchronous method named notify. Now is the moment to tell to PyActive, that this actor will be a log actor who will handle the intercepted messages.So, to indicate to PyActive who is the actor that will act as a log actor, we need to call the &lt;em&gt;set_trace&lt;/em&gt; function which receives as a parameter the reference of the actor which has the log task assigned. Once we have called the&lt;em&gt; set_trace&lt;/em&gt; function, the log system starts, so the log Actor starts to receive messages through the notify method. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;We decided this system methodology because the developer can choose what to do with the messages (save, show, filter...). In this section we show  two different examples about how to use this system: (1) a simple Log which only prints the messages it received, (2) we provide an UML logger that generates sequence diagrams from interactions among Actors.&lt;/p&gt;
+&lt;h3 style=&quot;text-align: justify;&quot;&gt;Example 1: Simple Log &lt;/h3&gt;
+&lt;p&gt;This example shows a simple log actor that we can make.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;class Log():
+    _sync = {}
+    _async = ['notify']
+    _ref = []
+    _parallel = []
+   
+    def notify(self, msg):
+        #print all messages that it receives.
+        print 'log system:', msg&lt;/code&gt;&lt;/pre&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The code above shows you a simple log actor, that implements the notify method, and prints the msg through the standard output.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In the code bellow we show you a full example, with a Server class and the Log class that we showed above. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;class Server():
+    _sync = {'add': '1'}
+    _async = ['substract']
+    _ref = []
+    _parallel = []
+   
+    def add(self,x,y):
+        return x+y
+    def substract(self,x,y):
+        print 'substract',x-y
+
+#This method initialize the test.
+#Registry Log class. Call set_trace method.
+def test_log():
+    host = init_host()
+    log = host.spawn_id('log', 'log','Log',[])
+    host.set_tracer(log)
+    ref = host.spawn_id('1','log','Server',[])
+    ref.substract(6,5)
+    print ref.add(5,5)
+    sleep(1)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;line&quot; style=&quot;text-align: justify;&quot;&gt;&lt;span class=&quot;p&quot;&gt;As you can see in the above code, we have the &lt;em&gt;test_log&lt;/em&gt; function, where we create the host and bind the actors. Note that we link the actor log using the &lt;em&gt;spawn_id&lt;/em&gt; function, and after that, we call the &lt;em&gt;set_trace&lt;/em&gt; function at host, to communicate that the &lt;em&gt;Log actor&lt;/em&gt; will be the actor charged to receive the intercepted messages. &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;text-align: justify;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;text-align: justify;&quot;&gt;&lt;span class=&quot;p&quot;&gt;You can find this example in Examples folder of PyActive project.&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot;&gt; &lt;/div&gt;
+&lt;h3 class=&quot;line&quot;&gt;&lt;span class=&quot;p&quot;&gt;Example 2. UML Log&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;We provide an UML logger that generates sequence diagrams from interactions among Actors. You can view above the code of log class that it generate a specific output document:&lt;/p&gt;
+&lt;div id=&quot;LC12&quot; class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;
+&lt;pre&gt;&lt;code&gt;class LogUML():
+    _sync = {}
+    _async = ['notify', 'to_uml']
+    _ref = []
+    _parallel = []
+    
+    def __init__(self):
+        self.events = []
+        self.nameNodes = {}
+        self.cnt2 = 0
+        self.cont = 0
+        self.nodes = {}
+        self.titles = {}
+        self.list_nodes = []
+        
+ 
+
+    def notify(self,msg):  
+        self.events.append(msg.copy())
+        
+   
+    def to_uml(self, filename):
+        uml = []
+        uml_names = []
+        uml.append('\n')
+        for msg in self.events:
+            fromref = urlparse(msg[FROM])
+            toref = urlparse(msg[TO])
+            if not self.nodes.has_key(fromref.path):
+                self.list_nodes.append(fromref.path)
+                self.nodes[fromref.path] = fromref.path
+            if not self.nodes.has_key(toref.path):
+                self.list_nodes.append(toref.path)
+                self.nodes[toref.path] = toref.path
+            self.titles[fromref.path] = msg[FROM]
+            self.titles[toref.path] = msg[TO]   
+
+        while(self.cnt2 &amp;lt; len(self.list_nodes)):
+            evt = 'n'+str(self.cnt2)+':Process[p] &quot;'+self.titles[self.list_nodes[self.cnt2]]+'&quot;\n'
+            self.nameNodes[self.titles[self.list_nodes[self.cnt2]]] = &quot;n&quot;+str(self.cnt2)
+            uml_names.append(evt)
+            self.cnt2 += 1&lt;br /&gt;
+        uml.append('\n')
+        
+        for msg in self.events:
+            if msg[TYPE]==CALL:
+                fromref = urlparse(msg[FROM])
+                toref = urlparse(msg[TO])
+                nfrom = 'n'+str(self.list_nodes.index(fromref.path))
+                nto = 'n'+str(self.list_nodes.index(toref.path))
+                if isinstance(msg[PARAMS], list):
+                    params = []
+                    for node in msg[PARAMS]:
+                        if isinstance(node, Ref):
+                            params.append(self.nameNodes.get(str(node.get_aref())))
+                        else:
+                            params.append(node)
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'('+str(params)+')\n'
+                else:
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'('+str(msg[PARAMS])+')\n'
+             
+            else:
+                fromref = urlparse(msg[FROM])
+                toref = urlparse(msg[TO])
+                nfrom = 'n'+str(self.list_nodes.index(fromref.path))
+                nto = 'n'+str(self.list_nodes.index(toref.path))
+                if isinstance(msg[RESULT], list):
+                    result = []
+                    for node in msg[RESULT]:
+                        result.append(self.nameNodes.get(str(node.get_aref())))
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'()='+str(result)+'\n'    
+                elif isinstance(msg[RESULT], Ref):
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'()='+self.nameNodes.get(str(msg[RESULT].get_aref()))+'\n'    
+                else:
+                    evt = nfrom+':'+nto+'.'+msg[METHOD]+'()='+str(msg[RESULT])+'\n'
+           
+            try:
+                uml.append(evt)
+            except:
+                None
+        
+        self.events = []&lt;br /&gt;        # (!) save name
+        write_uml(filename+'_names.sdx', uml_names)&lt;br /&gt;        # (2) save interactions among actors
+        write_uml(filename+'.sdx', uml)
+    
+def write_uml(filename, events):    
+    f3 = open(filename, 'a')
+    f3.writelines(events)
+    f3.close()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span class=&quot;p&quot;&gt;As seen in code, we need to call to_uml method &lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;periodically&lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;, that it transform the messages in UML format. Finally save the results in a file using write_uml method. We separate the uml code in two files: (1) save the names of actors using references, (2) save the interactions among actors. We take this decision because of it's better when exists the possibility to join nodes in a future. Using this solution, final step before generate the sequence diagram, is concatenate two files generated for UMLLog. &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span class=&quot;p&quot;&gt; &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span class=&quot;p&quot;&gt;To view the diagram, we use the &lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;sdedit&lt;/span&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt; software, which you can obtain in this url: &lt;/span&gt;&lt;a style=&quot;line-height: 1.3em;&quot; href=&quot;http://sdedit.sourceforge.net&quot;&gt;http://sdedit.sourceforge.net&lt;/a&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;. Once concatenated two files, only is necessary open file with sdedit. You obtain a beautiful sequence diagram easily. &lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;span style=&quot;line-height: 1.3em;&quot;&gt;Next image show you a sequence diagram example with three nodes using chord algorithm:&lt;/span&gt;&lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px;&quot;&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/chord_log.png&quot; alt=&quot;&quot; /&gt; &lt;/div&gt;
+&lt;div class=&quot;line&quot; style=&quot;padding-left: 10px; text-align: center;&quot;&gt; &lt;em&gt;Sequence Diagram &lt;/em&gt;&lt;/div&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Multi</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/10-multi"/>
+		<published>2013-11-14T17:40:41+00:00</published>
+		<updated>2013-11-14T17:40:41+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/10-multi</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;p style=&quot;text-align: justify;&quot;&gt;Here we explain the multi-call system in PyActive. We have two variants (1) Multi Synchronous Call and (2) Multi Asynchronous Call.&lt;/p&gt;
+&lt;ol style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;&lt;strong&gt;Multi Synchronous&lt;/strong&gt;: Actor can call synchronous methods to more than one Actor at same time. This invocation returns a dictionary &amp;lt;key, value&amp;gt;, where key are &quot;from id&quot;, and value are the result returned by the method execution of each actor. If not all the actors return a result, you'll receive all messages returned. On the other hand, if nobody returns the result, you will receive a timeout exception.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi Asynchronous&lt;/strong&gt;: Actor can call asynchronous methods to more than one Actor at same time. This invocation sends, to all Actors in the list, the same call.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In two cases, we need to initialize a Multi class. When we initialize this class, we can pass a list of Actors, who will receive the messages, or we can add the Actors after. Multi class has this interface:&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong style=&quot;font-size: 12.16px; line-height: 15.808px;&quot;&gt;Multi Asynchronous Interface:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;def __init__(self, list_actors):&lt;/li&gt;
+&lt;li&gt;def attach(self, actor):&lt;/li&gt;
+&lt;li&gt;def detach(self, actor):&lt;/li&gt;
+&lt;li&gt;def attach_list(self, actors):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong style=&quot;font-size: 12.16px; line-height: 15.808px;&quot;&gt;Multi Synchronous Interface:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul style=&quot;font-size: 12.16px; line-height: 15.808px; text-align: justify;&quot;&gt;
+&lt;li&gt;def __init__(self, &lt;strong&gt;owner&lt;/strong&gt;, list_actors):&lt;/li&gt;
+&lt;li&gt;def attach(self, actor):&lt;/li&gt;
+&lt;li&gt;def detach(self, actor):&lt;/li&gt;
+&lt;li&gt;def attach_list(self, actors):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;font-size: 12.16px; line-height: 15.808px; text-align: justify;&quot;&gt;&lt;strong&gt;Note&lt;/strong&gt;: That the Synchronous Multi needs one extra parameter (&quot;&lt;strong&gt;owner&lt;/strong&gt;&quot;), which is a reference of the actor that creates this Multi object. The &lt;strong&gt;owner&lt;/strong&gt; parameter it's necessary to make possible the send of the results to the owner. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Therefore, as we can see at the interface of the both Multis, we can add or remove actors from the Multi list when we believe that it's necessary. Moreover, we can add a single actor or a list of actors using the correct method. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 1.3em;&quot;&gt;Tu use the multi objects, we can import it from &lt;strong&gt;pyactive.Multi&lt;/strong&gt; with the names AMulti and SMulti. &lt;/span&gt;Next, you can see a example/test that shows how to use it:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;from pyactive.controller import init_host, serve_forever, start_controller, sleep
+import time
+from pyactive.Multi import AMulti, SMulti
+
+class Server(object):
+    _sync = {}
+    _async = ['add_actors', 'add', 'sync_add','print_references']
+    _ref = ['add_actors']
+    _parallel = []
+    
+    def add_actors(self, list_actors):
+        print list_actors
+        self.amulti = AMulti(list_actors)
+        self.smulti = SMulti(self._atom, list_actors)
+        self.list_actors = list_actors
+    def add(self, x, y):
+        self.amulti.add(x, y)
+    
+    def sync_add(self, x, y):
+        result =  self.smulti.sync_add(x, y)
+        print result.values()
+    def print_references(self):
+        for a in range(16):
+            print 'hola'
+            print self.smulti.get_reference().keys()
+class Calc():
+    _sync = {'sync_add':'1', 'get_reference':'1'}
+    _async = ['add']
+    _ref = ['get_reference']
+    _parallel = []
+        
+    def add(self, x, y):
+        print x+y
+        
+    def sync_add(self, x, y):
+        sleep(2)
+        return x+y
+    def get_reference(self):
+        print self.proxy
+        return self.proxy
+class Calc1():
+    _sync = {'sync_add':'1', 'get_reference':'1'}
+    _async = ['add']
+    _ref = ['get_reference']
+    _parallel = []
+        
+    def add(self, x, y):
+        print x+y
+    def sync_add(self, x, y):
+        return x+y 
+    def get_reference(self):
+        return self.proxy       
+def test():
+    
+    calcs = []
+    
+    tcpconf = ('tcp',('127.0.0.1',6664))
+    host = init_host(tcpconf)
+    
+    for i in range(1):
+        calcs.append(host.spawn_id(str(i),'test_multi','Calc',[]))
+    
+    for i in range(2):
+        calcs.append(host.spawn_id(str(i),'test_multi','Calc1',[]))
+    
+    server = host.spawn_id('serv', 'test_multi', 'Server', [])
+    server.add_actors(calcs)
+    
+    server.add(4,4)
+    server.sync_add(3,3)
+    server.print_references()
+   
+def main():
+    start_controller('pyactive_thread')
+    serve_forever(test)
+    
+   
+if __name__ == &quot;__main__&quot;:
+    main()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;/p&gt;</summary>
+		<content type="html">&lt;p style=&quot;text-align: justify;&quot;&gt;Here we explain the multi-call system in PyActive. We have two variants (1) Multi Synchronous Call and (2) Multi Asynchronous Call.&lt;/p&gt;
+&lt;ol style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;&lt;strong&gt;Multi Synchronous&lt;/strong&gt;: Actor can call synchronous methods to more than one Actor at same time. This invocation returns a dictionary &amp;lt;key, value&amp;gt;, where key are &quot;from id&quot;, and value are the result returned by the method execution of each actor. If not all the actors return a result, you'll receive all messages returned. On the other hand, if nobody returns the result, you will receive a timeout exception.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi Asynchronous&lt;/strong&gt;: Actor can call asynchronous methods to more than one Actor at same time. This invocation sends, to all Actors in the list, the same call.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt; &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In two cases, we need to initialize a Multi class. When we initialize this class, we can pass a list of Actors, who will receive the messages, or we can add the Actors after. Multi class has this interface:&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong style=&quot;font-size: 12.16px; line-height: 15.808px;&quot;&gt;Multi Asynchronous Interface:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul style=&quot;text-align: justify;&quot;&gt;
+&lt;li&gt;def __init__(self, list_actors):&lt;/li&gt;
+&lt;li&gt;def attach(self, actor):&lt;/li&gt;
+&lt;li&gt;def detach(self, actor):&lt;/li&gt;
+&lt;li&gt;def attach_list(self, actors):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong style=&quot;font-size: 12.16px; line-height: 15.808px;&quot;&gt;Multi Synchronous Interface:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul style=&quot;font-size: 12.16px; line-height: 15.808px; text-align: justify;&quot;&gt;
+&lt;li&gt;def __init__(self, &lt;strong&gt;owner&lt;/strong&gt;, list_actors):&lt;/li&gt;
+&lt;li&gt;def attach(self, actor):&lt;/li&gt;
+&lt;li&gt;def detach(self, actor):&lt;/li&gt;
+&lt;li&gt;def attach_list(self, actors):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;font-size: 12.16px; line-height: 15.808px; text-align: justify;&quot;&gt;&lt;strong&gt;Note&lt;/strong&gt;: That the Synchronous Multi needs one extra parameter (&quot;&lt;strong&gt;owner&lt;/strong&gt;&quot;), which is a reference of the actor that creates this Multi object. The &lt;strong&gt;owner&lt;/strong&gt; parameter it's necessary to make possible the send of the results to the owner. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Therefore, as we can see at the interface of the both Multis, we can add or remove actors from the Multi list when we believe that it's necessary. Moreover, we can add a single actor or a list of actors using the correct method. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 1.3em;&quot;&gt;Tu use the multi objects, we can import it from &lt;strong&gt;pyactive.Multi&lt;/strong&gt; with the names AMulti and SMulti. &lt;/span&gt;Next, you can see a example/test that shows how to use it:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;from pyactive.controller import init_host, serve_forever, start_controller, sleep
+import time
+from pyactive.Multi import AMulti, SMulti
+
+class Server(object):
+    _sync = {}
+    _async = ['add_actors', 'add', 'sync_add','print_references']
+    _ref = ['add_actors']
+    _parallel = []
+    
+    def add_actors(self, list_actors):
+        print list_actors
+        self.amulti = AMulti(list_actors)
+        self.smulti = SMulti(self._atom, list_actors)
+        self.list_actors = list_actors
+    def add(self, x, y):
+        self.amulti.add(x, y)
+    
+    def sync_add(self, x, y):
+        result =  self.smulti.sync_add(x, y)
+        print result.values()
+    def print_references(self):
+        for a in range(16):
+            print 'hola'
+            print self.smulti.get_reference().keys()
+class Calc():
+    _sync = {'sync_add':'1', 'get_reference':'1'}
+    _async = ['add']
+    _ref = ['get_reference']
+    _parallel = []
+        
+    def add(self, x, y):
+        print x+y
+        
+    def sync_add(self, x, y):
+        sleep(2)
+        return x+y
+    def get_reference(self):
+        print self.proxy
+        return self.proxy
+class Calc1():
+    _sync = {'sync_add':'1', 'get_reference':'1'}
+    _async = ['add']
+    _ref = ['get_reference']
+    _parallel = []
+        
+    def add(self, x, y):
+        print x+y
+    def sync_add(self, x, y):
+        return x+y 
+    def get_reference(self):
+        return self.proxy       
+def test():
+    
+    calcs = []
+    
+    tcpconf = ('tcp',('127.0.0.1',6664))
+    host = init_host(tcpconf)
+    
+    for i in range(1):
+        calcs.append(host.spawn_id(str(i),'test_multi','Calc',[]))
+    
+    for i in range(2):
+        calcs.append(host.spawn_id(str(i),'test_multi','Calc1',[]))
+    
+    server = host.spawn_id('serv', 'test_multi', 'Server', [])
+    server.add_actors(calcs)
+    
+    server.add(4,4)
+    server.sync_add(3,3)
+    server.print_references()
+   
+def main():
+    start_controller('pyactive_thread')
+    serve_forever(test)
+    
+   
+if __name__ == &quot;__main__&quot;:
+    main()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;/p&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Supervisor</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/11-supervisor"/>
+		<published>2013-11-14T17:48:36+00:00</published>
+		<updated>2013-11-14T17:48:36+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/11-supervisor</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;p style=&quot;text-align: justify;&quot;&gt;Another feature of PyActive, is that it provides a supervisor. The supervisor warns supervisor actor, when an Actor fails, if it is one that you decided supervise. Therefore, you need to create a Actor charged to supervise, and tell to him all the actors that going to supervise.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;How construct a supervisor actor?&lt;/strong&gt; We will create a normal actor like always, but into the actor object, we will instantiate a new object called Supervisor ( the Supervisor class is created like Multi class). Once, the Supervisor object will have been initialized, it starts to send keep alive message, in an internally way, to Actors assigned.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;How can we assign Actors to supervise in the Supervisor object?&lt;/strong&gt; First of all, when we create a Supervisor object, we can pass as a parameter a list of actors to supervise. Moreover, it offers an API that allows us to add more actors. Following, you can see the API of the Supervisor:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;   def __init__(self, time, retries, owner, actors = []):&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 1.3em;&quot;&gt;    def add_actor(self, actor):&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;   def add_actors(self, actors):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As you can see in the API, the Supervisor offers us the possibility to increase the list of actors to supervise in order to attach actors dynamically. Note that the init function ask as a parameters the time, the retries and the owner. The time refers to the time between each time that the supervisor checks the actors. The retries parameter is the number of times that the Supervisor try to connect to an actor which fails, before consider that he is dead. Finally, the owner is a reference to the actor who creates the Supervisor, this reference is used by the Supervisor to comunicate to the owner to tell him the actors failures.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;What does the Supervisor when it detects an actor failure? &lt;/strong&gt;When the supervisor considers that an actor is dead, he calls the &lt;em&gt;failure_detect&lt;/em&gt; method that must be implemented by the owner. Hence, the owner actor who have implemented this method, will execute this method each time that one node fails. Therefore, into this method is the site where the developer can code the policy that he believes correct in order to handle a node failure.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The &lt;em&gt;failure_detect&lt;/em&gt; method must follow the structure described below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;def failure_detect(self, actor_ref):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As you can see, this method receive as a parameter the reference of the actor that fail. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;How the Supervisor sends the message to all the actors?&lt;/strong&gt; The Supervisor is helped by the Multi class. Using the Multi it sends keep alive message to all Actors easily. Basically, it uses the Synchronous Multi class, because of allows to receive a response from the actors. If one actor not respond, the Supervisor consider it as a failure, and the counter of retries starts to count.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Example&lt;/strong&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Finally, here you can see an example/test that shows how to use the supervisor:&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 1.3em;&quot;&gt;class Server(object):&lt;/span&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    _sync = {'add_actors':'20'}&lt;br /&gt;    _async = ['add', 'sync_add','print_references']&lt;br /&gt;    _ref = ['add_actors']&lt;br /&gt;    _parallel = []&lt;br /&gt;    &lt;br /&gt;    def add_actors(self, list_actors):&lt;br /&gt;        self.supervisor = Supervisor(5, 3, self._atom, list_actors)&lt;br /&gt;        self.amulti = AMulti(list_actors)&lt;br /&gt;        self.smulti = SMulti(list_actors, self._atom)&lt;br /&gt;        return True&lt;br /&gt;    def add(self, x, y):&lt;br /&gt;        self.amulti.add(x, y)&lt;br /&gt;    &lt;br /&gt;    def sync_add(self, x, y):&lt;br /&gt;        result =  self.smulti.sync_add(x, y)&lt;br /&gt;        print result.values()&lt;br /&gt;    def print_references(self):&lt;br /&gt;        print self.smulti.get_reference().values()&lt;br /&gt;    def failure_detect(self, from_actor):&lt;br /&gt;        print 'failure', from_actor    &lt;br /&gt;&lt;br /&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In the example we can see that four parameters are needed to initialize the supervisor. First parameter indicate the interval time to call actors, second parameter indicate the retries before to alert of a fail, third parameter is the owner actor of this active object, and the last parameter is the list of Actors to supervise. Last method is the failure_detect, that we must implement. In this example, this method only prints the reference of the actor who fails.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;If you want check this example, or use it to practice with the supervisor class, you can find the full example in &lt;strong&gt;examples folder -&amp;gt; test_supervisor&lt;/strong&gt;&lt;/p&gt;</summary>
+		<content type="html">&lt;p style=&quot;text-align: justify;&quot;&gt;Another feature of PyActive, is that it provides a supervisor. The supervisor warns supervisor actor, when an Actor fails, if it is one that you decided supervise. Therefore, you need to create a Actor charged to supervise, and tell to him all the actors that going to supervise.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;How construct a supervisor actor?&lt;/strong&gt; We will create a normal actor like always, but into the actor object, we will instantiate a new object called Supervisor ( the Supervisor class is created like Multi class). Once, the Supervisor object will have been initialized, it starts to send keep alive message, in an internally way, to Actors assigned.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;How can we assign Actors to supervise in the Supervisor object?&lt;/strong&gt; First of all, when we create a Supervisor object, we can pass as a parameter a list of actors to supervise. Moreover, it offers an API that allows us to add more actors. Following, you can see the API of the Supervisor:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;   def __init__(self, time, retries, owner, actors = []):&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 1.3em;&quot;&gt;    def add_actor(self, actor):&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;   def add_actors(self, actors):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As you can see in the API, the Supervisor offers us the possibility to increase the list of actors to supervise in order to attach actors dynamically. Note that the init function ask as a parameters the time, the retries and the owner. The time refers to the time between each time that the supervisor checks the actors. The retries parameter is the number of times that the Supervisor try to connect to an actor which fails, before consider that he is dead. Finally, the owner is a reference to the actor who creates the Supervisor, this reference is used by the Supervisor to comunicate to the owner to tell him the actors failures.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;What does the Supervisor when it detects an actor failure? &lt;/strong&gt;When the supervisor considers that an actor is dead, he calls the &lt;em&gt;failure_detect&lt;/em&gt; method that must be implemented by the owner. Hence, the owner actor who have implemented this method, will execute this method each time that one node fails. Therefore, into this method is the site where the developer can code the policy that he believes correct in order to handle a node failure.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;The &lt;em&gt;failure_detect&lt;/em&gt; method must follow the structure described below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;def failure_detect(self, actor_ref):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;As you can see, this method receive as a parameter the reference of the actor that fail. &lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;How the Supervisor sends the message to all the actors?&lt;/strong&gt; The Supervisor is helped by the Multi class. Using the Multi it sends keep alive message to all Actors easily. Basically, it uses the Synchronous Multi class, because of allows to receive a response from the actors. If one actor not respond, the Supervisor consider it as a failure, and the counter of retries starts to count.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;strong&gt;Example&lt;/strong&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Finally, here you can see an example/test that shows how to use the supervisor:&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12.16px; line-height: 1.3em;&quot;&gt;class Server(object):&lt;/span&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    _sync = {'add_actors':'20'}&lt;br /&gt;    _async = ['add', 'sync_add','print_references']&lt;br /&gt;    _ref = ['add_actors']&lt;br /&gt;    _parallel = []&lt;br /&gt;    &lt;br /&gt;    def add_actors(self, list_actors):&lt;br /&gt;        self.supervisor = Supervisor(5, 3, self._atom, list_actors)&lt;br /&gt;        self.amulti = AMulti(list_actors)&lt;br /&gt;        self.smulti = SMulti(list_actors, self._atom)&lt;br /&gt;        return True&lt;br /&gt;    def add(self, x, y):&lt;br /&gt;        self.amulti.add(x, y)&lt;br /&gt;    &lt;br /&gt;    def sync_add(self, x, y):&lt;br /&gt;        result =  self.smulti.sync_add(x, y)&lt;br /&gt;        print result.values()&lt;br /&gt;    def print_references(self):&lt;br /&gt;        print self.smulti.get_reference().values()&lt;br /&gt;    def failure_detect(self, from_actor):&lt;br /&gt;        print 'failure', from_actor    &lt;br /&gt;&lt;br /&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;In the example we can see that four parameters are needed to initialize the supervisor. First parameter indicate the interval time to call actors, second parameter indicate the retries before to alert of a fail, third parameter is the owner actor of this active object, and the last parameter is the list of Actors to supervise. Last method is the failure_detect, that we must implement. In this example, this method only prints the reference of the actor who fails.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;If you want check this example, or use it to practice with the supervisor class, you can find the full example in &lt;strong&gt;examples folder -&amp;gt; test_supervisor&lt;/strong&gt;&lt;/p&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Chord</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/16-chord"/>
+		<published>2013-11-14T17:49:38+00:00</published>
+		<updated>2013-11-14T17:49:38+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/16-chord</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;p&gt;Chord is an excellent example of a distributed algorithm that makes extensive use of RPCs. We implemented a Python object oriented version of Chord (following the original pseudocode) in less than 217 lines of code.&lt;/p&gt;
+&lt;p&gt;We can see bottom, a fragment of the Chord implementation in our PyActive library. The original Chord implementation using plain Python objects only required some modifications that we detail now. Furthermore, you can find all code of Chord in our github repository.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;</summary>
+		<content type="html">&lt;p&gt;Chord is an excellent example of a distributed algorithm that makes extensive use of RPCs. We implemented a Python object oriented version of Chord (following the original pseudocode) in less than 217 lines of code.&lt;/p&gt;
+&lt;p&gt;We can see bottom, a fragment of the Chord implementation in our PyActive library. The original Chord implementation using plain Python objects only required some modifications that we detail now. Furthermore, you can find all code of Chord in our github repository.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Paxos</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/12-paxos"/>
+		<published>2013-11-14T17:48:48+00:00</published>
+		<updated>2013-11-14T17:48:48+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/12-paxos</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;http://127.0.0.1/pyactive/images/enconstru.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</summary>
+		<content type="html">&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;http://127.0.0.1/pyactive/images/enconstru.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+	<entry>
+		<title>Multi Paxos</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/13-multi-paxos"/>
+		<published>2013-11-14T17:49:00+00:00</published>
+		<updated>2013-11-14T17:49:00+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/13-multi-paxos</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/enconstru.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</summary>
+		<content type="html">&lt;p&gt;&lt;img style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; src=&quot;http://127.0.0.1/pyactive/images/enconstru.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content>
+		<category term="Tutorials" />
+	</entry>
+</feed>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr">
+
+
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  <meta charset="utf-8" />
+  <base  />
+  <meta name="author" content="Edgar Zamora-Gómez" />
+  <meta name="generator" content="Joomla! - Open Source Content Management" />
+  <title>Parallel Abstraction</title>
+  <link href="../../../../templates/protostar/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  <link href="../../../component/search/index198a.html?Itemid=114&amp;catid=10&amp;id=18&amp;format=opensearch" rel="search" title="Search PyActive" type="application/opensearchdescription+xml" />
+  <link rel="stylesheet" href="../../../../templates/protostar/css/template.css" />
+  <style type="text/css">
+#scrollToTop {
+	cursor: pointer;
+	font-size: 0.9em;
+	position: fixed;
+	text-align: center;
+	z-index: 9999;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-moz-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	-o-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+
+	background: #121212;
+	color: #ffffff;
+	border-radius: 8px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	right: 20px; bottom: 20px;
+}
+
+#scrollToTop:hover {
+	background: #0088cc;
+	color: #ffffff;
+}
+
+#scrollToTop > img {
+	display: block;
+	margin: 0 auto;
+}
+div.mod_search80 input[type="search"]{ width:auto; }
+  </style>
+  <script src="../../../../media/system/js/mootools-core.js"></script>
+  <script src="../../../../media/system/js/core.js"></script>
+  <script src="../../../../media/system/js/mootools-more.js"></script>
+  <script src="../../../../media/plg_system_sl_scrolltotop/js/scrolltotop_mt.js"></script>
+  <script src="../../../../media/jui/js/jquery.min.js"></script>
+  <script src="../../../../media/jui/js/jquery-noconflict.js"></script>
+  <script src="../../../../media/jui/js/jquery-migrate.min.js"></script>
+  <script src="../../../../media/system/js/caption.js"></script>
+  <script src="../../../../media/jui/js/bootstrap.min.js"></script>
+  <script src="../../../../templates/protostar/js/template.js"></script>
+  <script src="../../../../media/system/js/html5fallback.js"></script>
+  <script type="text/javascript">
+document.addEvent('domready', function() {
+	new Skyline_ScrollToTop({
+		'image':		'/pyactive/images/images-3.jpeg',
+		'text':			'',
+		'title':		'',
+		'className':	'scrollToTop',
+		'duration':		500,
+		'transition':	Fx.Transitions.linear
+	});
+});
+jQuery(window).on('load',  function() {
+				new JCaption('img.caption');
+			});
+jQuery(document).ready(function(){
+	jQuery('.hasTooltip').tooltip({"html": true,"container": "body"});
+});
+  </script>
+
+				<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+		<style type="text/css">
+			h1,h2,h3,h4,h5,h6,.site-title{
+				font-family: 'Open Sans', sans-serif;
+			}
+		</style>
+				<style type="text/css">
+		body.site
+		{
+			border-top: 3px solid #696969;
+			background-color: #e3e3e3		}
+		a
+		{
+			color: #696969;
+		}
+		.nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
+		.btn-primary
+		{
+			background: #696969;
+		}
+	</style>
+		<!--[if lt IE 9]>
+		<script src="/pyactive/media/jui/js/html5.js"></script>
+	<![endif]-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body class="site com_content view-article no-layout no-task itemid-114">
+
+	<!-- Body -->
+	<div class="body">
+		<div class="container">
+			<!-- Header -->
+			<header class="header" role="banner">
+				<div class="header-inner clearfix">
+					<a class="brand pull-left" href="../../../../index.html">
+						<img src="../../../../images/1479800_10202789135033462_2052917332_n.jpg" alt="PyActive" />											</a>
+					<div class="header-search pull-right">
+						<div class="search mod_search80">
+	<form action="http://127.0.0.1/pyactive/docs/userguide" method="post" class="form-inline">
+		<label for="mod-search-searchword" class="element-invisible">Search ...</label> <input name="searchword" id="mod-search-searchword" maxlength="200"  class="inputbox search-query" type="search" size="20" placeholder="Search ..." />		<input type="hidden" name="task" value="search" />
+		<input type="hidden" name="option" value="com_search" />
+		<input type="hidden" name="Itemid" value="114" />
+	</form>
+</div>
+
+					</div>
+				</div>
+			</header>
+							<nav class="navigation" role="navigation">
+					<div class="navbar pull-left">
+						<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</a>
+					</div>
+					<div class="nav-collapse">
+						<ul class="nav menu nav-pills">
+<li class="item-101"><a href="../../../../index-2.html" >Home</a></li><li class="item-114 current active"><a href="../../../userguide.html" >User Guide</a></li><li class="item-102"><a href="../../../about-us.html" >About Us</a></li><li class="item-106"><a href="../../../contact-us.html" >Contact Us</a></li></ul>
+
+					</div>
+				</nav>
+						
+			<div class="row-fluid">
+								<main id="content" role="main" class="span9">
+					<!-- Begin Content -->
+					
+					<div id="system-message-container">
+	</div>
+
+					<div class="item-page" itemscope itemtype="https://schema.org/Article">
+	<meta itemprop="inLanguage" content="en-GB" />
+	
+		
+			<div class="page-header">
+					<h2 itemprop="name">
+				Parallel Abstraction			</h2>
+									</div>
+							
+<div class="icons">
+	
+					<div class="btn-group pull-right">
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <span class="icon-cog"></span><span class="caret"></span> </a>
+								<ul class="dropdown-menu">
+											<li class="print-icon"> <a href="18-parallelabf8.html?tmpl=component&amp;print=1&amp;page=" title="Print" onclick="window.open(this.href,'win2','status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no'); return false;" rel="nofollow"><span class="icon-print"></span>Print</a> </li>
+																<li class="email-icon"> <a href="../../../component/mailto/index0bfe.html?tmpl=component&amp;template=protostar&amp;link=1b97cd7e1e1b73601ed7cbf8b0b0144a0ab3347a" title="Email" onclick="window.open(this.href,'win2','width=400,height=350,menubar=yes,resizable=yes'); return false;" rel="nofollow"><span class="icon-envelope"></span>Email</a> </li>
+														</ul>
+			</div>
+		
+	</div>
+			
+	
+	
+				
+								<div itemprop="articleBody">
+		<h2 style="text-align: justify;">Context</h2>
+<p style="text-align: justify;">The Continuation Complexity problem leads us to a paradox in Actor models: synchronous blocking calls are needed to correctly implement RPCs in order to avoid breaking the code into asynchronous messages and handlers. But Actor models are purely asynchronous, and using synchronous calls would block the calling Actor unique thread of control until the response arrives. </p>
+<p style="text-align: justify;">The aforementioned paradox also represents a burden for Object Oriented Actor libraries. If only asynchronous calls are allowed, the resulting code breaks with the traditional object oriented paradigm and complicates the resulting code.</p>
+<p style="text-align: justify;">To solve this problem, we present a novel method invocation abstraction called parallel, enabling synchronous invocations to other Actors, without stalling the current Actor’s thread of control. Our parallel calls enable concurrent interleavings of method executions within a single Actor.</p>
+<h3>Concurrency Control</h3>
+<p style="text-align: justify;">The major challenge is to enable concurrent interleaving of method executions within a single Actor. We mainly want to allow the main Actor thread to continue processing incoming method requests while the parallel thread is blocked waiting for a response in a remote Actor due to a synchronous invocation.</p>
+<p style="text-align: justify;">We present two solutions: one based on threads and locks and another based on green threads and continuations, </p>
+<p style="text-align: justify;"><strong>Solution 1 Threads:</strong> The Actor implementation will spawn normal threads in the Scheduler and Parallel Methods threads. To achieve consistency between Scheduler and Parallel threads, we use traditional Thread Lock mechanisms that prevent multiple threads to access the same object at the same time. Similar to the Monitor Object pattern, we use a Lock in the Actor object that is only activated when parallel threads are spawned. We aim to provide here a simple solution to demonstrate that parallel threads can coexist with the Actor main thread without conflicting with the servant object shared state. Our lock mechanism is completely transparent to the developer, so that the simplicity of the message passing concurrency model is not affected. </p>
+<p> <img style="display: block; margin-left: auto; margin-right: auto;" src="../../../../images/Concurrency_diagram_v8.png" alt="" width="711" height="503" /></p>
+<p> </p>
+<p style="text-align: justify;">In the figure above we can see how our solution handles the concurrency problem. In this flow diagram we can observe where it uses the Lock acquire and Lock release primitives in a call flow. In addition, it is necessary to know that a single Lock is shared between Actor and Parallel Threads wrappers for each Actor. The life cycle is the following: </p>
+<ol>
+<li style="text-align: justify;"><strong>Acquire:</strong> When a call is incoming, if it exists some parallel call in the object, we need to acquire the lock to be sure that only one thread at this time is using the object. In Fig. 2, we show an example with a parallel synchronous call. At this moment, a parallel thread takes the control of the object, and any other thread can not access to the object.</li>
+<li style="text-align: justify;"><strong>Release:</strong> The parallel thread sends the synchronous invocation to a remote actor. In this moment, the parallel actor releases the lock so that the main thread or other parallel threads can continue working. This is the key point where the Actor is not blocked until the response arrives, and it can process incoming messages.</li>
+<li style="text-align: justify;"><strong>Acquire:</strong> While the parallel thread is waiting the response, our main thread and other parallel threads can serve other petitions. When the response arrives to the Proxy, the Parallel thread will be able to continue execut- ing the method. Nonetheless, it must try to acquire the Lock, because it is possible that the Lock is now in possession of another Thread.</li>
+<li style="text-align: justify;"><strong>Release:</strong> Finally, when the multicalls return object method ends, the parallel synchronous wrapper will release the Lock, and it will end its process.</li>
+</ol>
+<p style="text-align: justify;">As we can see, our solution ensures that only one thread access the shared state, but also that waiting for a response in a parallel thread will not preclude the main thread to process incoming messages. Obviously, we control whether the response will not return using a timeout. Using this system we guarantee that the main thread will not be blocked even if the response does not arrive.</p>
+<p style="text-align: justify;">Our solution permits to increase the Actor service time because it avoids blocking the Actor during synchronous invocations. We guarantee the correct interleavings of Actor parallel and main threads. Furthermore, we maintain the simplicity of message passing concurrency since the developer is still unaware of this concurrency control mechanisms. He must only tag the appropriate methods as parallel when necessary.</p>
+<p style="text-align: justify;"> </p>
+<p style="text-align: justify;">Solution 2: Micro Threads and Continuations: In this case, we can use the same figure used in the solution 1, but removing the acquire and release invocations. In that case, we don’t need to use a lock system. This is because in a single-threaded environment, two microthreads cannot modify the same state at the same time because their execution is sequential.</p>
+<p style="text-align: justify;">We assume here that the send and receive primitives in microthreads will execute a context-switch to other green thread processing the communication to other Actor. Following, we will try to explain better this process, step by step:</p>
+<ol style="text-align: justify;">
+<li><strong>send:</strong> When a proxy sends a synchronous message to another Actor, it auto- matically releases its control to other microthread.</li>
+<li><strong>receive:</strong> Parallel microthread will be inactive until it will receive a message. At moment that it will receive a message it will wake up and wait for its turn to continue the method execution. The implicit continuation implies that the code continues from that point.</li>
+</ol>
+<p style="text-align: justify;">Since send and receive policies are executed inside the Proxy, the developer is completely unaware of context-switches and continuations. Furthermore, in this case there is no need to use locks to prevent concurrent access.</p>
+<h3><span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.3em;">Example using parallel</span></h3>
+<p><span style="font-size: 12.16px; line-height: 15.808px;"><strong>Note:</strong> If you remove the start method from parallel list, you will be able to look another result, because the node 1 will be blocked.</span></p>
+<pre><code>from pyactive.controller import init_host, launch, start_controller, sleep
+
+class Node(object):
+    _sync = {'send_msg':'50', 'return_msg':'50'}
+    _async = ['print_some', 'start', 'start_n3', "registry_node"]
+    _parallel = []
+    _ref = ["registry_node"]
+
+    def registry_node(self, n2):
+        self.remote = n2
+
+    def send_msg(self):
+        print self.remote
+        msg = self.remote.return_msg()
+        print msg
+        return True
+
+    def return_msg(self):
+        print 'im here'
+        sleep(10)
+        print 'after sleep'
+        return 'Hello World'
+
+    def print_some(self):
+        print 'hello print some'
+
+    def start(self):
+        print 'call ...'
+        msg = self.remote.return_msg()
+        print msg
+
+    def start_n3(self):
+        for i in range(6):
+            self.remote.print_some()
+
+def test1():
+    host = init_host()
+    n2 = host.spawn_id('2','parallel1','Node',[])
+    n1 = host.spawn_id('1','parallel1','Node',[])
+    n3 = host.spawn_id('3','parallel1','Node',[])
+    n2.registry_node(n1)
+    n1.registry_node(n2)
+    n3.registry_node(n1)
+    n1.start()
+    sleep(1)
+    n3.start_n3()
+    sleep(10)
+
+
+def main():
+    start_controller('pyactive_thread')
+    launch(test1)
+
+if __name__ == "__main__":
+    main()</code></pre>
+<p> </p> 	</div>
+
+	
+	
+<ul class="pager pagenav">
+	<li class="previous">
+		<a href="9-hello-world-examples.html" rel="prev">
+			<span class="icon-chevron-left"></span> Prev		</a>
+	</li>
+	<li class="next">
+		<a href="15-log-system.html" rel="next">
+			Next <span class="icon-chevron-right"></span>		</a>
+	</li>
+</ul>
+							</div>
+
+					
+<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb">
+			<li>
+			You are here: &#160;
+		</li>
+	
+				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+									<a itemprop="item" href="../../../../index-2.html" class="pathway"><span itemprop="name">Home</span></a>
+				
+									<span class="divider">
+						<img src="../../../../media/system/images/arrow.png" alt="" />					</span>
+								<meta itemprop="position" content="1">
+			</li>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+									<a itemprop="item" href="../../../userguide.html" class="pathway"><span itemprop="name">User Guide</span></a>
+				
+									<span class="divider">
+						<img src="../../../../media/system/images/arrow.png" alt="" />					</span>
+								<meta itemprop="position" content="2">
+			</li>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+									<a itemprop="item" href="../../9-user-guide.html" class="pathway"><span itemprop="name">User Guide</span></a>
+				
+									<span class="divider">
+						<img src="../../../../media/system/images/arrow.png" alt="" />					</span>
+								<meta itemprop="position" content="3">
+			</li>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+									<a itemprop="item" href="../tutorials.html" class="pathway"><span itemprop="name">Tutorials</span></a>
+				
+									<span class="divider">
+						<img src="../../../../media/system/images/arrow.png" alt="" />					</span>
+								<meta itemprop="position" content="4">
+			</li>
+					<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
+				<span itemprop="name">
+					Parallel Abstraction				</span>
+				<meta itemprop="position" content="5">
+			</li>
+		</ul>
+
+					<!-- End Content -->
+				</main>
+									<div id="aside" class="span3">
+						<!-- Begin Right Sidebar -->
+						<div class="well "><h3 class="page-header">Download </h3>
+
+<div class="custom"  >
+	<p style="text-align: center;"><a href="https://github.com/cloudspaces/pyactive" target="_blank"><img src="../../../../images/gitHub-download-button.png" alt="" /></a></p></div>
+</div>
+						<!-- End Right Sidebar -->
+					</div>
+							</div>
+		</div>
+	</div>
+	<!-- Footer -->
+	<footer class="footer" role="contentinfo">
+		<div class="container">
+			<hr />
+			
+			<p class="pull-right">
+				<a href="#top" id="back-top">
+					Back to Top				</a>
+			</p>
+			<p>
+				&copy; 2026 PyActive			</p>
+		</div>
+	</footer>
+	
+</body>
+
+
+</html>

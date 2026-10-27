@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! - Open Source Content Management" -->
+<feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">
+	<title type="text">User Guide</title>
+	<subtitle type="text"></subtitle>
+	<link rel="alternate" type="text/html" href="http://127.0.0.1"/>
+	<id>http://127.0.0.1/pyactive/docs/userguide/9-user-guide</id>
+	<updated>2026-10-27T07:53:54+00:00</updated>
+	<author>
+		<name>PyActive</name>
+	</author>
+	<generator uri="http://joomla.org">Joomla! - Open Source Content Management</generator>
+	<link rel="self" type="application/atom+xml" href="http://127.0.0.1/pyactive/docs/userguide/9-user-guide?format=feed&amp;type=atom"/>
+	<entry>
+		<title>Index</title>
+		<link rel="alternate" type="text/html" href="http://127.0.0.1/pyactive/docs/userguide"/>
+		<published>2013-11-13T15:52:07+00:00</published>
+		<updated>2013-11-13T15:52:07+00:00</updated>
+		<id>http://127.0.0.1/pyactive/docs/userguide</id>
+		<author>
+			<name>Edgar Zamora-Gómez</name>
+		</author>
+		<summary type="html">&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/7-introduction&quot;&gt;1 - Introduction&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/9-hello-world-examples&quot;&gt;2 - Hello World &lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/18-parallel&quot;&gt;3 - Parallel Abstraction&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/22-evaluation&quot;&gt;4 - Evaluation&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/15-log-system&quot;&gt;5- Log System&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/10-multi&quot;&gt;6- Multi&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/11-supervisor&quot;&gt;7- Supervisor&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;8- Examples:&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/16-chord&quot;&gt;9- Chord&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/12-paxos&quot;&gt;10- Paxos&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/13-multi-paxos&quot;&gt;11- Multi Paxos&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/14-raft&quot;&gt;12- Raft&lt;/a&gt;&lt;/p&gt;</summary>
+		<content type="html">&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/7-introduction&quot;&gt;1 - Introduction&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/9-hello-world-examples&quot;&gt;2 - Hello World &lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/18-parallel&quot;&gt;3 - Parallel Abstraction&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/22-evaluation&quot;&gt;4 - Evaluation&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/15-log-system&quot;&gt;5- Log System&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/10-multi&quot;&gt;6- Multi&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/11-supervisor&quot;&gt;7- Supervisor&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 30px;&quot;&gt;8- Examples:&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/16-chord&quot;&gt;9- Chord&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/12-paxos&quot;&gt;10- Paxos&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/13-multi-paxos&quot;&gt;11- Multi Paxos&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;padding-left: 60px;&quot;&gt;&lt;a href=&quot;http://127.0.0.1/pyactive/docs/userguide/10-user-guide/tutorials/14-raft&quot;&gt;12- Raft&lt;/a&gt;&lt;/p&gt;</content>
+		<category term="User Guide" />
+	</entry>
+</feed>

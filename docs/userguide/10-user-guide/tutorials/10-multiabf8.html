@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb" dir="ltr">
+
+
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <base  />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="author" content="Edgar Zamora-Gómez" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="generator" content="Joomla! - Open Source Content Management" />
+  <title>Multi</title>
+  <link href="http://127.0.0.1/pyactive/templates/protostar/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  <link rel="stylesheet" href="http://127.0.0.1/pyactive/templates/protostar/css/template.css" type="text/css" />
+  <style type="text/css">
+#scrollToTop {
+	cursor: pointer;
+	font-size: 0.9em;
+	position: fixed;
+	text-align: center;
+	z-index: 9999;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	-moz-transition: background-color 0.2s ease-in-out;
+	-ms-transition: background-color 0.2s ease-in-out;
+	-o-transition: background-color 0.2s ease-in-out;
+	transition: background-color 0.2s ease-in-out;
+
+	background: #121212;
+	color: #ffffff;
+	border-radius: 8px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	right: 20px; bottom: 20px;
+}
+
+#scrollToTop:hover {
+	background: #0088cc;
+	color: #ffffff;
+}
+
+#scrollToTop > img {
+	display: block;
+	margin: 0 auto;
+}
+  </style>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/core.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/mootools-more.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/plg_system_sl_scrolltotop/js/scrolltotop_mt.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/jquery-migrate.min.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/system/js/caption.js" type="text/javascript"></script>
+  <script src="http://127.0.0.1/pyactive/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+document.addEvent('domready', function() {
+	new Skyline_ScrollToTop({
+		'image':		'/pyactive/images/images-3.jpeg',
+		'text':			'',
+		'title':		'',
+		'className':	'scrollToTop',
+		'duration':		500,
+		'transition':	Fx.Transitions.linear
+	});
+});
+jQuery(window).on('load',  function() {
+				new JCaption('img.caption');
+			});
+  </script>
+
+<!--[if lt IE 9]>
+	<script src="/pyactive/media/jui/js/html5.js"></script>
+<![endif]-->
+</head>
+<body class="contentpane modal">
+	<div id="system-message-container">
+	</div>
+
+	<div class="item-page" itemscope itemtype="https://schema.org/Article">
+	<meta itemprop="inLanguage" content="en-GB" />
+	
+		
+			<div id="pop-print" class="btn hidden-print">
+			<a href="#" onclick="window.print();return false;"><span class="icon-print"></span>Print</a>		</div>
+		<div class="clearfix"> </div>
+			<div class="page-header">
+					<h2 itemprop="name">
+				Multi			</h2>
+									</div>
+					
+	
+	
+				
+								<div itemprop="articleBody">
+		<p style="text-align: justify;">Here we explain the multi-call system in PyActive. We have two variants (1) Multi Synchronous Call and (2) Multi Asynchronous Call.</p>
+<ol style="text-align: justify;">
+<li><strong>Multi Synchronous</strong>: Actor can call synchronous methods to more than one Actor at same time. This invocation returns a dictionary &lt;key, value&gt;, where key are "from id", and value are the result returned by the method execution of each actor. If not all the actors return a result, you'll receive all messages returned. On the other hand, if nobody returns the result, you will receive a timeout exception.</li>
+<li><strong>Multi Asynchronous</strong>: Actor can call asynchronous methods to more than one Actor at same time. This invocation sends, to all Actors in the list, the same call.</li>
+</ol>
+<p style="text-align: justify;"> </p>
+<p style="text-align: justify;">In two cases, we need to initialize a Multi class. When we initialize this class, we can pass a list of Actors, who will receive the messages, or we can add the Actors after. Multi class has this interface:</p>
+<p style="text-align: justify;"><strong style="font-size: 12.16px; line-height: 15.808px;">Multi Asynchronous Interface:</strong></p>
+<ul style="text-align: justify;">
+<li>def __init__(self, list_actors):</li>
+<li>def attach(self, actor):</li>
+<li>def detach(self, actor):</li>
+<li>def attach_list(self, actors):</li>
+</ul>
+<p style="text-align: justify;"><strong style="font-size: 12.16px; line-height: 15.808px;">Multi Synchronous Interface:</strong></p>
+<ul style="font-size: 12.16px; line-height: 15.808px; text-align: justify;">
+<li>def __init__(self, <strong>owner</strong>, list_actors):</li>
+<li>def attach(self, actor):</li>
+<li>def detach(self, actor):</li>
+<li>def attach_list(self, actors):</li>
+</ul>
+<p style="font-size: 12.16px; line-height: 15.808px; text-align: justify;"><strong>Note</strong>: That the Synchronous Multi needs one extra parameter ("<strong>owner</strong>"), which is a reference of the actor that creates this Multi object. The <strong>owner</strong> parameter it's necessary to make possible the send of the results to the owner. </p>
+<p style="text-align: justify;">Therefore, as we can see at the interface of the both Multis, we can add or remove actors from the Multi list when we believe that it's necessary. Moreover, we can add a single actor or a list of actors using the correct method. </p>
+<p style="text-align: justify;"><span style="font-size: 12.16px; line-height: 1.3em;">Tu use the multi objects, we can import it from <strong>pyactive.Multi</strong> with the names AMulti and SMulti. </span>Next, you can see a example/test that shows how to use it:</p>
+<pre><code>from pyactive.controller import init_host, serve_forever, start_controller, sleep
+import time
+from pyactive.Multi import AMulti, SMulti
+
+class Server(object):
+    _sync = {}
+    _async = ['add_actors', 'add', 'sync_add','print_references']
+    _ref = ['add_actors']
+    _parallel = []
+    
+    def add_actors(self, list_actors):
+        print list_actors
+        self.amulti = AMulti(list_actors)
+        self.smulti = SMulti(self._atom, list_actors)
+        self.list_actors = list_actors
+    def add(self, x, y):
+        self.amulti.add(x, y)
+    
+    def sync_add(self, x, y):
+        result =  self.smulti.sync_add(x, y)
+        print result.values()
+    def print_references(self):
+        for a in range(16):
+            print 'hola'
+            print self.smulti.get_reference().keys()
+class Calc():
+    _sync = {'sync_add':'1', 'get_reference':'1'}
+    _async = ['add']
+    _ref = ['get_reference']
+    _parallel = []
+        
+    def add(self, x, y):
+        print x+y
+        
+    def sync_add(self, x, y):
+        sleep(2)
+        return x+y
+    def get_reference(self):
+        print self.proxy
+        return self.proxy
+class Calc1():
+    _sync = {'sync_add':'1', 'get_reference':'1'}
+    _async = ['add']
+    _ref = ['get_reference']
+    _parallel = []
+        
+    def add(self, x, y):
+        print x+y
+    def sync_add(self, x, y):
+        return x+y 
+    def get_reference(self):
+        return self.proxy       
+def test():
+    
+    calcs = []
+    
+    tcpconf = ('tcp',('127.0.0.1',6664))
+    host = init_host(tcpconf)
+    
+    for i in range(1):
+        calcs.append(host.spawn_id(str(i),'test_multi','Calc',[]))
+    
+    for i in range(2):
+        calcs.append(host.spawn_id(str(i),'test_multi','Calc1',[]))
+    
+    server = host.spawn_id('serv', 'test_multi', 'Server', [])
+    server.add_actors(calcs)
+    
+    server.add(4,4)
+    server.sync_add(3,3)
+    server.print_references()
+   
+def main():
+    start_controller('pyactive_thread')
+    serve_forever(test)
+    
+   
+if __name__ == "__main__":
+    main()</code></pre>
+<p> </p> 	</div>
+
+	
+							</div>
+
+</body>
+
+
+</html>
